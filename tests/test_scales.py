@@ -3,7 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import pytest
 
-from tangible import scale
+from tangible import scales
 
 
 @pytest.mark.parametrize(('param', 'clamp', 'expected'), [
@@ -22,8 +22,8 @@ def test_linear(param, clamp, expected):
     """Test the linear scale."""
     domain = (2, 4)
     codomain = (10, 20)
-    s = scale.linear(domain, codomain, clamp)
-    assert s(param) == expected
+    scale = scales.linear(domain, codomain, clamp)
+    assert scale(param) == expected
 
 
 @pytest.mark.parametrize(('param', 'clamp', 'expected'), [
@@ -41,5 +41,5 @@ def test_linear_inverted_codomain(param, clamp, expected):
     """Test the linear scale with inverted codomain."""
     domain = (1, 3)
     codomain = (20, 10)
-    s = scale.linear(domain, codomain, clamp)
-    assert s(param) == expected
+    scale = scales.linear(domain, codomain, clamp)
+    assert scale(param) == expected
