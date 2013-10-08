@@ -1,9 +1,12 @@
 Tangible
 ========
 
+**WARNING: Project is still under initial development. Git history may be
+changed and force-pushed at any time.**
+
 Tangible is a Python library to convert data into tangible 3D models.
 
-It generates code for different backends like OpenSCAD.
+It generates code for different backends like OpenSCAD or ImplicitSCAD.
 
 The workflow is as follows::
 
@@ -21,7 +24,7 @@ The workflow is as follows::
     ⇓
     Printed object
 
-This library is work in progress and currently in the planning phase.
+Work in progress, everything is still *very* unstable and might not work at all.
 
 
 Coding Guidelines
