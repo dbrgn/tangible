@@ -1,0 +1,4 @@
+# Testing
+pytest==2.4.2
+pytest-cov==1.6
+pytest-pep8==1.0.5
