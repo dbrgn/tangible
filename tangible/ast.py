@@ -25,10 +25,10 @@ Cylinder = namedtuple('Cylinder', 'height radius1 radius2')
 Polyhedron = namedtuple('Polyhedron', 'points triangles')
 
 # Transformations
-Translate = namedtuple('Translate', 'x y z')
-Rotate = namedtuple('Rotate', 'x y z')
-Scale = namedtuple('Scale', 'x y z')
-Mirror = namedtuple('Mirror', 'x y z')
+Translate = namedtuple('Translate', 'x y z item')
+Rotate = namedtuple('Rotate', 'x y z item')
+Scale = namedtuple('Scale', 'x y z item')
+Mirror = namedtuple('Mirror', 'x y z item')
 
 # Boolean operations
 Union = namedtuple('Union', 'items')

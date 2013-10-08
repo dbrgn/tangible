@@ -1,11 +1,25 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
+from . import ast, utils
+from .backends.openscad import OpenScadBackend
 
-class Vertical2D(object):
 
-    def __init__(self, data):
+class Tower(object):
+
+    def __init__(self, data, layer_height):
         self.data = data
+        self.layer_height = layer_height
 
-    def render_layer(self):
-        pass
+    def _build_ast(self):
+        layers = []
+        for i, (lower, upper) in enumerate(utils.pairwise(self.data)):
+            layer = ast.Cylinder(height=self.layer_height, radius1=lower, radius2=upper)
+            translated_layer = ast.Translate(x=0, y=0, z=i * self.layer_height, item=layer)
+            layers.append(translated_layer)
+        return ast.Union(items=layers)
+
+    def render(self):
+        self.ast = self._build_ast()
+        backend = OpenScadBackend(self.ast)
+        return backend.render()
