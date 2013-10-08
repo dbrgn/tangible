@@ -1,6 +1,10 @@
 Tangible
 ========
 
+.. image:: https://secure.travis-ci.org/dbrgn/tangible.png?branch=master
+    :alt: Build status
+    :target: http://travis-ci.org/dbrgn/tangible
+
 **WARNING: Project is still under initial development. Git history may be
 changed and force-pushed at any time.**
 
