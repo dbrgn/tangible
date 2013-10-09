@@ -87,10 +87,7 @@ class Program(Block):
 class OpenScadBackend(object):
 
     def __init__(self, ast):
-        if isinstance(ast, list):
-            self.ast = ast
-        else:
-            self.ast = [ast]
+        self.ast = ast
 
     def render(self):
         prgm = Program()
@@ -99,17 +96,77 @@ class OpenScadBackend(object):
         SEP = prgm.emptyline
 
         def _render(node):
-            if isinstance(node, ast.Union):
-                with BLOCK('union()'):
-                    for item in node.items:
-                        _render(item)
-            elif isinstance(node, ast.Translate):
+            """Recursive rendering function."""
+
+            istype = lambda t: isinstance(node, t)
+
+            # Handle lists
+
+            if istype(list):
+                for item in node:
+                    _render(item)
+
+            # 2D shapes
+
+            elif istype(ast.Circle):
+                STMT('circle({})', node.radius)
+            elif istype(ast.Rectangle):
+                center = 'true' if node.center else 'false'
+                STMT('square([{}, {}], center={}])', node.width, node.height, center)
+            elif istype(ast.Polygon):
+                if node.paths:
+                    template = 'polygon(\npoints={!r},\n    paths={!r}\n)'
+                    STMT(template, node.points, node.paths)
+                else:
+                    STMT('polygon(points={!r})', node.points)
+
+            # 3D shapes
+
+            elif istype(ast.Cube):
+                STMT('cube([{}, {}, {}])', node.width, node.depth, node.height)
+            elif istype(ast.Sphere):
+                STMT('sphere(r={})', node.radius)
+            elif istype(ast.Cylinder):
+                STMT('cylinder({}, {}, {})', node.height, node.radius1, node.radius2)
+            elif istype(ast.Polyhedron):
+                template = 'polyhedron(\npoints={!r},\n    triangles={!r}\n)'
+                STMT(template, node.points, node.triangles)
+
+            # Transformations
+
+            elif istype(ast.Translate):
                 with BLOCK('translate([{}, {}, {}])', node.x, node.y, node.z):
                     _render(node.item)
-            elif isinstance(node, ast.Cylinder):
-                STMT('cylinder({}, {}, {})', node.height, node.radius1, node.radius2)
+            elif istype(ast.Rotate):
+                with BLOCK('rotate([{}, {}, {}])', node.x, node.y, node.z):
+                    _render(node.item)
+            elif istype(ast.Scale):
+                with BLOCK('scale([{}, {}, {}])', node.x, node.y, node.z):
+                    _render(node.item)
+            elif istype(ast.Mirror):
+                with BLOCK('mirror([{}, {}, {}])', node.x, node.y, node.z):
+                    _render(node.item)
 
-        for node in self.ast:
-            _render(node)
+            # Boolean operations
+
+            elif istype(ast.Union):
+                with BLOCK('union()'):
+                    _render(node.items)
+            elif istype(ast.Difference):
+                with BLOCK('difference()'):
+                    _render(node.items)
+            elif istype(ast.Intersection):
+                with BLOCK('intersection()'):
+                    _render(node.items)
+
+            # Extrusions
+
+            elif istype(ast.LinearExtrusion):
+                center = 'true' if node.center else 'false'
+                STMT('linear_extrude(height={}, center={})', node.height, center)
+            elif istype(ast.RotateExtrusion):
+                STMT('rotate_extrude(twist={})', node.twist)
+
+        _render(self.ast)
 
         return prgm.render()
