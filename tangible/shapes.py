@@ -2,7 +2,6 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 from . import ast, utils
-from .backends.openscad import OpenScadBackend
 
 
 class Tower(object):
@@ -19,7 +18,6 @@ class Tower(object):
             layers.append(translated_layer)
         return ast.Union(items=layers)
 
-    def render(self):
+    def render(self, backend):
         self.ast = self._build_ast()
-        backend = OpenScadBackend(self.ast)
-        return backend.render()
+        return backend(self.ast).render()

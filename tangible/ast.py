@@ -19,8 +19,8 @@ Rectangle = namedtuple('Rectangle', 'width heigh center')
 Polygon = namedtuple('Polygon', 'points paths')
 
 # 3D shapes
-Sphere = namedtuple('Sphere', 'radius')
 Cube = namedtuple('Cube', 'width height depth')
+Sphere = namedtuple('Sphere', 'radius')
 Cylinder = namedtuple('Cylinder', 'height radius1 radius2')
 Polyhedron = namedtuple('Polyhedron', 'points triangles')
 

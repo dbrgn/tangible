@@ -4,6 +4,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import csv
 
 from tangible import scales, shapes
+from tangible.backends.openscad import OpenScadBackend
 
 
 # Read data into list
@@ -23,14 +24,5 @@ datapoints = map(scale, datapoints)
 # Create shape
 tower = shapes.Tower(datapoints, layer_height=10)
 
-print(tower.render())
-
-# Loop over datapoints, generate OpenSCAD code
-#height = 5
-#last_point = 10
-#print('union() {')
-#for i, point in enumerate(datapoints):
-#    print('\ttranslate([0, 0, %d]) { cylinder(%d, %d, %d, $fa=5); };'
-#            % (height * i, height, last_point, point))
-#    last_point = point
-#print('};')
+code = tower.render(backend=OpenScadBackend)
+print(code)
