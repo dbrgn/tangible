@@ -43,14 +43,22 @@ Coding Guidelines
 <https://pypi.python.org/pypi/flake8>`_ with max-line-width set to 99 and
 E126-E128 ignored.
 
-Docstrings: `Sphinx style <http://stackoverflow.com/q/4547849/284318>`__.
+All Python files must start with an UTF8 encoding declaration and some
+`future-imports <http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/>`_:
+
+.. sourcecode:: python
+
+    # -*- coding: utf-8 -*-
+    from __future__ import print_function, division, absolute_import, unicode_literals
+
+Docstrings convention: `Sphinx style <http://stackoverflow.com/q/4547849/284318>`__.
 
 
 Testing
 -------
 
 Install ``requirements-dev.txt``, then run ``py.test`` in the main directory.
-Violations of the coding guidelines above will be counted as test fails.
+Violations of the PEP8 coding guidelines above will be counted as test fails.
 
 
 License
