@@ -114,11 +114,13 @@ class OpenScadBackend(object):
                 center = 'true' if node.center else 'false'
                 STMT('square([{}, {}], center={}])', node.width, node.height, center)
             elif istype(ast.Polygon):
-                if node.paths:
+                points = map(list, node.points)
+                paths = map(list, node.paths)
+                if paths:
                     template = 'polygon(\npoints={!r},\n    paths={!r}\n)'
-                    STMT(template, node.points, node.paths)
+                    STMT(template, points, paths)
                 else:
-                    STMT('polygon(points={!r})', node.points)
+                    STMT('polygon(points={!r})', points)
 
             # 3D shapes
 
@@ -129,8 +131,10 @@ class OpenScadBackend(object):
             elif istype(ast.Cylinder):
                 STMT('cylinder({}, {}, {})', node.height, node.radius1, node.radius2)
             elif istype(ast.Polyhedron):
+                points = map(list, node.points)
+                triangles = map(list, node.triangles)
                 template = 'polyhedron(\npoints={!r},\n    triangles={!r}\n)'
-                STMT(template, node.points, node.triangles)
+                STMT(template, points, triangles)
 
             # Transformations
 
