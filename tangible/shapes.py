@@ -1,16 +1,46 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
-from itertools import izip
-
 from . import ast, utils
 
 
-class Tower(object):
+class Shape(object):
+    """The base class for all shapes.
 
-    def __init__(self, data, layer_height):
+    This class provides the base functionality to store data, build an AST and
+    render it using the selected backend.
+
+    """
+    def __init__(self, data):
         self.data = data
+
+    def _build_ast(self):
+        raise NotImplementedError('_build_ast method not implemented.')
+
+    def render(self, backend):
+        """Build the AST and render it using the selected backend.
+
+        :param backend: The backend class used to render the AST. Must accept
+            the AST as constructor argument and provide a ``render()`` method.
+        :returns: The rendered AST as a string.
+
+        """
+        self.ast = self._build_ast()
+        return backend(self.ast).render()
+
+
+class VerticalShape(Shape):
+    """Base class for vertical shapes.
+
+    It adds the ``layer_height`` parameter to the constructor.
+
+    """
+    def __init__(self, data, layer_height):
+        super(VerticalShape, self).__init__(data)
         self.layer_height = layer_height
+
+
+class Tower(VerticalShape):
 
     def _build_ast(self):
         layers = []
@@ -20,16 +50,8 @@ class Tower(object):
             layers.append(translated_layer)
         return ast.Union(items=layers)
 
-    def render(self, backend):
-        self.ast = self._build_ast()
-        return backend(self.ast).render()
 
-
-class Tower2D(object):
-
-    def __init__(self, data, layer_height):
-        self.data = data
-        self.layer_height = layer_height
+class Tower2D(VerticalShape):
 
     def _build_ast(self):
         layers = []
@@ -71,10 +93,6 @@ class Tower2D(object):
             layer = ast.Polyhedron(points, triangles)
             layers.append(layer)
         return ast.Union(items=layers)
-
-    def render(self, backend):
-        self.ast = self._build_ast()
-        return backend(self.ast).render()
 
 
 class Bars2D(object):
