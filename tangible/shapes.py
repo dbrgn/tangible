@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
+from itertools import izip
+
 from . import ast, utils
 
 
@@ -16,6 +18,58 @@ class Tower(object):
             layer = ast.Cylinder(height=self.layer_height, radius1=lower, radius2=upper)
             translated_layer = ast.Translate(x=0, y=0, z=i * self.layer_height, item=layer)
             layers.append(translated_layer)
+        return ast.Union(items=layers)
+
+    def render(self, backend):
+        self.ast = self._build_ast()
+        return backend(self.ast).render()
+
+
+class Tower2D(object):
+
+    def __init__(self, data, layer_height):
+        self.data = data
+        self.layer_height = layer_height
+
+    def _build_ast(self):
+        layers = []
+        for i in range(len(self.data[0]) - 1):
+            lower1 = self.data[0][i]
+            lower2 = self.data[1][i]
+            upper1 = self.data[0][i + 1]
+            upper2 = self.data[1][i + 1]
+            z = i * self.layer_height
+            points = [
+                # Lower layer
+                (lower1, 0, z),
+                (0, lower2, z),
+                (-lower1, 0, z),
+                (0, -lower2, z),
+                # Upper layer
+                (upper1, 0, z + self.layer_height),
+                (0, upper2, z + self.layer_height),
+                (-upper1, 0, z + self.layer_height),
+                (0, -upper2, z + self.layer_height),
+            ]
+            triangles = [
+                # Bottom triangles
+                (0, 1, 3),
+                (1, 2, 3),
+                # Top triangles
+                (4, 7, 5),
+                (5, 7, 6),
+                # Sides
+                (0, 7, 4),
+                (0, 3, 7),
+                (1, 4, 5),
+                (1, 0, 4),
+                (2, 5, 6),
+                (2, 1, 5),
+                (3, 6, 7),
+                (3, 2, 6),
+            ]
+            layer = ast.Polyhedron(points, triangles)
+            layers.append(layer)
         return ast.Union(items=layers)
 
     def render(self, backend):
