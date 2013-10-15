@@ -15,7 +15,7 @@ __VERSION__ = '1'
 
 # 2D shapes
 Circle = namedtuple('Circle', 'radius')
-Rectangle = namedtuple('Rectangle', 'width heigh')
+Rectangle = namedtuple('Rectangle', 'width height')
 Polygon = namedtuple('Polygon', 'points paths')
 
 # 3D shapes
