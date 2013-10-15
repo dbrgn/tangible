@@ -26,7 +26,7 @@ Polyhedron = namedtuple('Polyhedron', 'points triangles')
 
 # Transformations
 Translate = namedtuple('Translate', 'x y z item')
-Rotate = namedtuple('Rotate', 'x y z item')
+Rotate = namedtuple('Rotate', 'degrees vector item')
 Scale = namedtuple('Scale', 'x y z item')
 Mirror = namedtuple('Mirror', 'x y z item')
 

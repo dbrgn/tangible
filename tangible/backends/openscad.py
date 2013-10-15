@@ -141,7 +141,8 @@ class OpenScadBackend(object):
                 with BLOCK('translate([{}, {}, {}])', node.x, node.y, node.z):
                     _render(node.item)
             elif istype(ast.Rotate):
-                with BLOCK('rotate([{}, {}, {}])', node.x, node.y, node.z):
+                vector = map(list, node.vector)
+                with BLOCK('rotate({}, {!r})', node.degrees, vector):
                     _render(node.item)
             elif istype(ast.Scale):
                 with BLOCK('scale([{}, {}, {}])', node.x, node.y, node.z):
