@@ -15,7 +15,7 @@ __VERSION__ = '1'
 
 # 2D shapes
 Circle = namedtuple('Circle', 'radius')
-Rectangle = namedtuple('Rectangle', 'width heigh center')
+Rectangle = namedtuple('Rectangle', 'width heigh')
 Polygon = namedtuple('Polygon', 'points paths')
 
 # 3D shapes
@@ -36,5 +36,5 @@ Difference = namedtuple('Difference', 'items')
 Intersection = namedtuple('Intersection', 'items')
 
 # Extrusions
-LinearExtrusion = namedtuple('LinearExtrusion', 'height center')
+LinearExtrusion = namedtuple('LinearExtrusion', 'height')
 RotateExtrusion = namedtuple('RotateExtrusion', 'twist')

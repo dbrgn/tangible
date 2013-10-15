@@ -111,8 +111,7 @@ class OpenScadBackend(object):
             elif istype(ast.Circle):
                 STMT('circle({})', node.radius)
             elif istype(ast.Rectangle):
-                center = 'true' if node.center else 'false'
-                STMT('square([{}, {}], center={}])', node.width, node.height, center)
+                STMT('square([{}, {}]])', node.width, node.height)
             elif istype(ast.Polygon):
                 points = map(list, node.points)
                 paths = map(list, node.paths)
@@ -166,8 +165,7 @@ class OpenScadBackend(object):
             # Extrusions
 
             elif istype(ast.LinearExtrusion):
-                center = 'true' if node.center else 'false'
-                STMT('linear_extrude(height={}, center={})', node.height, center)
+                STMT('linear_extrude(height={})', node.height)
             elif istype(ast.RotateExtrusion):
                 STMT('rotate_extrude(twist={})', node.twist)
 
