@@ -36,6 +36,13 @@ The workflow is as follows::
 Work in progress, everything is still *very* unstable and might not work at all.
 
 
+Documentation
+-------------
+
+Documentation can be found on ReadTheDocs: `http://tangible.readthedocs.org/
+<http://tangible.readthedocs.org/>`_
+
+
 Coding Guidelines
 -----------------
 
