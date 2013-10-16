@@ -43,12 +43,22 @@ class VerticalShape(Shape):
 class Tower(VerticalShape):
 
     def _build_ast(self):
-        layers = []
-        for i, (lower, upper) in enumerate(utils.pairwise(self.data)):
-            layer = ast.Cylinder(height=self.layer_height, radius1=lower, radius2=upper)
-            translated_layer = ast.Translate(x=0, y=0, z=i * self.layer_height, item=layer)
-            layers.append(translated_layer)
-        return ast.Union(items=layers)
+        layers = [ast.Circle(radius=d) for d in self.data]
+        return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
+
+
+class RectangularTower(VerticalShape):
+
+    def _build_ast(self):
+        layers = [ast.Rectangle(d, d) for d in self.data]
+        return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
+
+
+class RectangularTower2D(VerticalShape):
+
+    def _build_ast(self):
+        layers = [ast.Rectangle(d1, d2) for d1, d2 in self.data]
+        return utils.connect_2d_shapes(layers, self.layer_height, 'horizontal')
 
 
 class Tower2D(VerticalShape):
