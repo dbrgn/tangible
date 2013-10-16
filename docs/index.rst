@@ -5,6 +5,8 @@ Welcome to Tangible's documentation!
     :target: https://travis-ci.org/dbrgn/tangible
     :alt: Build Status
 
+`https://github.com/dbrgn/tangible <https://github.com/dbrgn/tangible>`_
+
 Tangible is a Python library to convert data into tangible 3D models. It
 generates code for different backends like OpenSCAD or ImplicitSCAD. It is
 inspired by projects like OpenSCAD and d3.js.
