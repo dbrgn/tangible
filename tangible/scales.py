@@ -26,7 +26,7 @@ def linear(domain, codomain, clamp=False):
     :param codomain: The scale's output range / codomain.
     :type codomain: A 2-tuple.
     :returns: A function that takes a single number as argument and returns
-    another number.
+        another number.
 
     """
     d, c = domain, codomain  # Short aliases

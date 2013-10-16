@@ -41,21 +41,22 @@ class VerticalShape(Shape):
 
 
 class Tower(VerticalShape):
-
+    """Round vertical tower. Datapoints are mapped to radius."""
     def _build_ast(self):
         layers = [ast.Circle(radius=d) for d in self.data]
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
 class RectangularTower(VerticalShape):
-
+    """Vertical tower with squares as layers. Datapoints are mapped to width/height."""
     def _build_ast(self):
         layers = [ast.Rectangle(d, d) for d in self.data]
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
 class RectangularTower2D(VerticalShape):
-
+    """Vertical tower with 4-sided polygons as layers. Datapoints are mapped to
+    distance between opposing corners."""
     def _build_ast(self):
         layers = [ast.Rectangle(d1, d2) for d1, d2 in self.data]
         return utils.connect_2d_shapes(layers, self.layer_height, 'horizontal')
@@ -106,7 +107,8 @@ class Tower2D(VerticalShape):
 
 
 class Bars2D(object):
-
+    """Vertical bars aligned next to each other horizontally. Datapoints are
+    mapped to bar height."""
     def __init__(self, data, bar_width, bar_depth):
         self.data = data
         self.bar_width = bar_width
