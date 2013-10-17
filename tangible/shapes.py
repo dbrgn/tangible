@@ -128,3 +128,28 @@ class Bars2D(object):
     def render(self, backend):
         self.ast = self._build_ast()
         return backend(self.ast).render()
+
+
+class Bars3D(object):
+    """Vertical bars aligned next to each other horizontally. Datapoints are
+    mapped to bar height. Multiple layers of bars."""
+    def __init__(self, data, bar_width, bar_depth):
+        self.data = data
+        self.bar_width = bar_width
+        self.bar_depth = bar_depth
+
+    def _build_ast(self):
+        layers = []
+        for i, month in enumerate(self.data):
+            bars2d = Bars2D(month, self.bar_width, self.bar_depth)
+            layer = bars2d._build_ast()
+            translated = ast.Translate(x=(i % 2) * 0.1, y=i * self.bar_depth, z=0, item=layer)
+            layers.append(translated)
+        model = ast.Union(items=layers)
+        # Center model
+        y_offset = len(self.data) / 2 * self.bar_depth
+        return ast.Translate(x=0, y=-y_offset, z=0, item=model)
+
+    def render(self, backend):
+        self.ast = self._build_ast()
+        return backend(self.ast).render()
