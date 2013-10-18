@@ -54,7 +54,7 @@ Coding Guidelines
 E126-E128 ignored.
 
 All Python files must start with an UTF8 encoding declaration and some
-`future-imports <http://lucumr.pocoo.org/2011/1/22/forwards-compatible-python/>`_:
+`future-imports <http://stackful-dev.com/quick-tips-on-making-your-code-python-3-ready.html>`_:
 
 .. sourcecode:: python
 
