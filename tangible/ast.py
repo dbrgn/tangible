@@ -52,8 +52,8 @@ class Rectangle(AST):
         """
         :param width: Width of the rectangle.
         :type width: int or float
-        :param width: Height of the rectangle.
-        :type width: int or float
+        :param height: Height of the rectangle.
+        :type height: int or float
         :raises: ValueError if validation fails.
 
         """
@@ -92,10 +92,10 @@ class Cube(AST):
         """
         :param width: Width of the cube.
         :type width: int or float
-        :param width: Height of the cube.
-        :type width: int or float
-        :param width: Depth of the cube.
-        :type width: int or float
+        :param height: Height of the cube.
+        :type height: int or float
+        :param depth: Depth of the cube.
+        :type depth: int or float
         :raises: ValueError if validation fails.
 
         """
