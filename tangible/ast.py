@@ -163,7 +163,7 @@ class Polyhedron(AST):
         :param quads: Rectangles formed by a 4-tuple of point indexes (e.g.
             ``(0, 1, 3, 4)``). When looking at the rectangle from outside, the
             points must be in clockwise order.
-        :type quad: list of 4-tuples
+        :type quads: list of 4-tuples
         :raises: ValueError if validation fails.
 
         """
@@ -173,6 +173,8 @@ class Polyhedron(AST):
             raise ValueError('Invalid point tuples (must be 3-tuples).')
         if triangles and quads:
             raise ValueError('Only triangles or quads may be specified, not both.')
+        if not (triangles or quads):
+            raise ValueError('Either triangles or quads must be specified.')
         if triangles:
             if set(map(len, triangles)) != set([3]):
                 raise ValueError('Invalid triangle tuples (must be 3-tuples).')
