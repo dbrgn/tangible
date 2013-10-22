@@ -45,6 +45,7 @@ Table of Contents
    shapes
    scales
    utils
+   ast
    backends
    examples
 
