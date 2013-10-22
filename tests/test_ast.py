@@ -6,6 +6,17 @@ import pytest
 from tangible import ast
 
 
+### Equality ###
+
+def test_equality():
+    """Equality should only compare attribute values, not identity."""
+    c1 = ast.Circle(42)
+    c2 = ast.Circle(42)
+    assert c1 == c2
+
+
+### 2D shapes ###
+
 def test_good_circle():
     try:
         circle = ast.Circle(5.5)
@@ -38,7 +49,7 @@ def test_good_rectangle():
     (-1, 1),  # negative width
     (1, -1),  # negative height
 ])
-def test_bad_circle(width, height):
+def test_bad_rectangle(width, height):
     with pytest.raises(ValueError):
         ast.Rectangle(width, height)
 

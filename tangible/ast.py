@@ -13,9 +13,25 @@ from collections import namedtuple
 __VERSION__ = '1'
 
 
+### Base class for AST types ###
+
+class AST(object):
+    """Base class for AST objects."""
+
+    def __eq__(self, other):
+        """This method override ensures that two objects are considered equal
+        when their attributes match. Object identity is irrelevant."""
+        return isinstance(other, self.__class__) \
+            and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        """Inverse of ``__eq__``."""
+        return not self.__eq__(other)
+
+
 ### 2D shapes ###
 
-class Circle(object):
+class Circle(AST):
     """A circle 2D shape."""
     def __init__(self, radius):
         """
@@ -28,7 +44,7 @@ class Circle(object):
         self.radius = radius
 
 
-class Rectangle(object):
+class Rectangle(AST):
     """A rectangle 2D shape."""
     def __init__(self, width, height):
         """
@@ -46,7 +62,7 @@ class Rectangle(object):
         self.height = height
 
 
-class Polygon(object):
+class Polygon(AST):
     """A polygon 2D shape."""
     def __init__(self, points):
         """
