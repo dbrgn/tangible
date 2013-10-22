@@ -4,6 +4,8 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 from . import ast, utils
 
 
+### BASE CLASS ###
+
 class Shape(object):
     """The base class for all shapes.
 
@@ -22,23 +24,47 @@ class Shape(object):
 
         :param backend: The backend class used to render the AST. Must accept
             the AST as constructor argument and provide a ``render()`` method.
-        :returns: The rendered AST as a string.
+        :returns: The resulting source code as a string.
 
         """
         self.ast = self._build_ast()
         return backend(self.ast).render()
 
 
-class VerticalShape(Shape):
-    """Base class for vertical shapes.
+### MAIN SHAPE TYPES ###
 
-    It adds the ``layer_height`` parameter to the constructor.
+class VerticalShape(Shape):
+    """Base class for vertical shapes like towers.
+
+    :param data: The data.
+    :type data: list
+    :param layer_height: The height of each layer in the vertical shape.
+    :type layer_height: int or float
 
     """
     def __init__(self, data, layer_height):
         super(VerticalShape, self).__init__(data)
         self.layer_height = layer_height
 
+
+class BarsShape(Shape):
+    """Base class for vertical bars.
+
+    :param data: The data.
+    :type data: list
+    :param bar_width: The width of each bar.
+    :type bar_width: int or float
+    :param bar_depth: The depth of each bar.
+    :type bar_depth: int or float
+
+    """
+    def __init__(self, data, bar_width, bar_depth):
+        super(BarsShape, self).__init__(data)
+        self.bar_width = bar_width
+        self.bar_depth = bar_depth
+
+
+### CUSTOM SHAPES ###
 
 class Tower(VerticalShape):
     """Round vertical tower. Datapoints are mapped to radius."""
@@ -106,14 +132,6 @@ class Tower2D(VerticalShape):
         return ast.Union(items=layers)
 
 
-class BarsShape(Shape)
-    """Base class for vertical bars."""
-    def __init__(self, data, bar_width, bar_depth):
-        super(Bars2D, self).__init__(data)
-        self.bar_width = bar_width
-        self.bar_depth = bar_depth
-
-
 class Bars2D(BarsShape):
     """Vertical bars aligned next to each other horizontally. Datapoints are
     mapped to bar height."""
@@ -132,14 +150,22 @@ class Bars2D(BarsShape):
 class Bars3D(BarsShape):
     """Vertical bars aligned next to each other horizontally. Datapoints are
     mapped to bar height. Multiple layers of bars."""
+    def __init__(self, data, bar_width, bar_depth, center_layers=False):
+        super(Bars3D, self).__init__(data, bar_width, bar_depth)
+        self.center_layers = center_layers
+
     def _build_ast(self):
         layers = []
         for i, month in enumerate(self.data):
             bars2d = Bars2D(month, self.bar_width, self.bar_depth)
             layer = bars2d._build_ast()
-            translated = ast.Translate(x=(i % 2) * 0.1, y=i * self.bar_depth, z=0, item=layer)
+            if not self.center_layers:
+                layer = layer.item
+            x_offset = (i % 2) * 0.1  # Used to prevent "invalid 2-manifold" error
+            translated = ast.Translate(x=x_offset, y=i * self.bar_depth, z=0, item=layer)
             layers.append(translated)
         model = ast.Union(items=layers)
         # Center model
+        #x_offset =
         y_offset = len(self.data) / 2 * self.bar_depth
         return ast.Translate(x=0, y=-y_offset, z=0, item=model)
