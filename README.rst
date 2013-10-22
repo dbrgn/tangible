@@ -38,6 +38,8 @@ The workflow is as follows::
 
 Work in progress, everything is still *very* unstable and might not work at all.
 
+Currently supported Python versions are 2.7.
+
 
 Documentation
 -------------

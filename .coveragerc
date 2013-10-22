@@ -3,7 +3,6 @@ source =
     tangible
 omit =
     tests/*
-    tangible/ast.py
 
 [report]
 # Regexes for lines to exclude from consideration
