@@ -9,7 +9,7 @@ from tangible.backends.openscad import OpenScadBackend
 
 
 # Read data into list
-datapoints = [list() for i in xrange(9)]
+datapoints = [list() for i in xrange(10)]
 with open('analytics-full-13.csv', 'r') as datafile:
     reader = csv.DictReader(datafile)
     for row in reader:
@@ -26,7 +26,7 @@ datapoints = map(lambda x: map(scale, x), datapoints)
 
 
 # Create shape
-bars3d = shapes.Bars3D(datapoints, bar_width=7, bar_depth=7)
+bars3d = shapes.Bars3D(datapoints, bar_width=7, bar_depth=7, center_layers=True)
 
 code = bars3d.render(backend=OpenScadBackend)
 print(code)
