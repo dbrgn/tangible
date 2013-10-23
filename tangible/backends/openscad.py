@@ -90,7 +90,7 @@ class OpenScadBackend(object):
     def __init__(self, ast):
         """
         :param ast: The AST that should be rendered.
-        :type ast: :class:`tangible.ast.AST` subclass
+        :type ast: Any :class:`tangible.ast.AST` subclass
 
         """
         self.ast = ast

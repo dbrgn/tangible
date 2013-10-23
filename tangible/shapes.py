@@ -9,8 +9,8 @@ from . import ast, utils
 class Shape(object):
     """The base class for all shapes.
 
-    This class provides the base functionality to store data, build an AST and
-    render it using the selected backend.
+    This class provides the base functionality to store data, build an `AST
+    <ast.html>`_ and render it using the selected `backend <backends.html>`_.
 
     """
     def __init__(self, data):
@@ -20,9 +20,9 @@ class Shape(object):
         raise NotImplementedError('_build_ast method not implemented.')
 
     def render(self, backend):
-        """Build the AST and generate code using the selected backend.
+        """Build the AST_ and generate code using the selected backend_.
 
-        :param backend: The backend class used to process the AST. Must accept
+        :param backend: The backend_ class used to process the AST_. Must accept
             the AST as constructor argument and provide a ``generate()`` method.
         :returns: The resulting source code as a string.
 
