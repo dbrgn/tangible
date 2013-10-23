@@ -198,6 +198,18 @@ class Polyhedron(AST):
 class Translate(AST):
     """A translate transformation."""
     def __init__(self, x, y, z, item):
+        """
+        :param x: Translation on the X axis.
+        :type x: int or float
+        :param y: Translation on the Y axis.
+        :type y: int or float
+        :param z: Translation on the Z axis.
+        :type z: int or float
+        :param item: An AST object.
+        :type item: tangible.ast.AST
+        :raises: ValueError if validation fails
+
+        """
         if not item:
             raise ValueError('Item is required.')
         if not isinstance(item, AST):
@@ -211,6 +223,19 @@ class Translate(AST):
 class Rotate(AST):
     """A rotate transformation."""
     def __init__(self, degrees, vector, item):
+        """
+        :param degrees: Number of degrees to rotate.
+        :type degrees: int or float
+        :param vector: The axes to rotate around. When a rotation is specified
+            for multiple axes then the rotation is applied in the following
+            order: x, y, z. As an example, a vector of [1,1,0] will cause the object
+            to be first rotated around the x axis, and then around the y axis.
+        :type y: 3-tuple
+        :param item: An AST object.
+        :type item: tangible.ast.AST
+        :raises: ValueError if validation fails
+
+        """
         if not item:
             raise ValueError('Item is required.')
         if not isinstance(item, AST):
@@ -227,14 +252,24 @@ class Rotate(AST):
 
 
 class Scale(AST):
-    """A scale transformation.
-
-    The x, y and z attributes are multiplicators of the corresponding
-    dimensions. E.g. to double the height of an object, you'd use ``1, 1, 2``
-    as x, y and z values.
-
-    """
+    """A scale transformation."""
     def __init__(self, x, y, z, item):
+        """
+        The x, y and z attributes are multiplicators of the corresponding
+        dimensions. E.g. to double the height of an object, you'd use ``1, 1, 2``
+        as x, y and z values.
+
+        :param x: X axis multiplicator.
+        :type x: int or float
+        :param y: Y axis multiplicator.
+        :type y: int or float
+        :param z: Z axis multiplicator.
+        :type z: int or float
+        :param item: An AST object.
+        :type item: tangible.ast.AST
+        :raises: ValueError if validation fails
+
+        """
         if not item:
             raise ValueError('Item is required.')
         if not isinstance(item, AST):
@@ -248,14 +283,24 @@ class Scale(AST):
 
 
 class Mirror(AST):
-    """A mirror transformation.
-
-    Mirrors the child element on a plane through the origin. The arguments
-    ``x``, ``y`` and ``z`` describe the normal vector of a plane intersecting
-    the origin through which to mirror the object.
-
-    """
+    """A mirror transformation."""
     def __init__(self, x, y, z, item):
+        """
+        Mirror the child element on a plane through the origin. The arguments
+        x, y and z describe the normal vector of a plane intersecting the
+        origin through which to mirror the object.
+
+        :param x: X component of normal vector.
+        :type x: int or float
+        :param y: Y component of normal vector.
+        :type y: int or float
+        :param z: Z component of normal vector.
+        :type z: int or float
+        :param item: An AST object.
+        :type item: tangible.ast.AST
+        :raises: ValueError if validation fails
+
+        """
         if not item:
             raise ValueError('Item is required.')
         if not isinstance(item, AST):
