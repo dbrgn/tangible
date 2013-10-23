@@ -192,14 +192,99 @@ class Polyhedron(AST):
         self.quads = quads
         self.polygon_type = 'triangles' if triangles else 'quads'
 
-# Transformations
-Translate = namedtuple('Translate', 'x y z item')
-Rotate = namedtuple('Rotate', 'degrees vector item')
-Scale = namedtuple('Scale', 'x y z item')
-Mirror = namedtuple('Mirror', 'x y z item')
 
-# Boolean operations
-Union = namedtuple('Union', 'items')
+### Transformations ###
+
+class Translate(AST):
+    """A translate transformation."""
+    def __init__(self, x, y, z, item):
+        if not item:
+            raise ValueError('Item is required.')
+        if not isinstance(item, AST):
+            raise ValueError('Item must be an AST type.')
+        self.x = x
+        self.y = y
+        self.z = z
+        self.item = item
+
+
+class Rotate(AST):
+    """A rotate transformation."""
+    def __init__(self, degrees, vector, item):
+        if not item:
+            raise ValueError('Item is required.')
+        if not isinstance(item, AST):
+            raise ValueError('Item must be an AST type.')
+        if not len(vector) == 3:
+            raise ValueError('Invalid vector (must be a 3-tuple).')
+        if not any(vector):
+            raise ValueError('Invalid vector (must contain at least one `1` value).')
+        if set(vector) != set([0, 1]):
+            raise ValueError('Invalid vector (must consist of `0` and `1` values).')
+        self.degrees = degrees
+        self.vector = vector
+        self.item = item
+
+
+class Scale(AST):
+    """A scale transformation.
+
+    The x, y and z attributes are multiplicators of the corresponding
+    dimensions. E.g. to double the height of an object, you'd use ``1, 1, 2``
+    as x, y and z values.
+
+    """
+    def __init__(self, x, y, z, item):
+        if not item:
+            raise ValueError('Item is required.')
+        if not isinstance(item, AST):
+            raise ValueError('Item must be an AST type.')
+        if 0 in [x, y, z]:
+            raise ValueError('Values of 0 are not allowed in a scale transformation.')
+        self.x = x
+        self.y = y
+        self.z = z
+        self.item = item
+
+
+class Mirror(AST):
+    """A mirror transformation.
+
+    Mirrors the child element on a plane through the origin. The arguments
+    ``x``, ``y`` and ``z`` describe the normal vector of a plane intersecting
+    the origin through which to mirror the object.
+
+    """
+    def __init__(self, x, y, z, item):
+        if not item:
+            raise ValueError('Item is required.')
+        if not isinstance(item, AST):
+            raise ValueError('Item must be an AST type.')
+        if not any((x, y, z)):
+            raise ValueError('Invalid vector (must contain at least one `1` value).')
+        if set([x, y, z]) != set([0, 1]):
+            raise ValueError('Invalid vector (must consist of `0` and `1` values).')
+        self.x = x
+        self.y = y
+        self.z = z
+        self.item = item
+
+
+### Boolean operations ###
+
+class Union(AST):
+    """A union operation."""
+    def __init__(self, items):
+        if not items:
+            raise ValueError('Items are required.')
+        if not hasattr(items, '__iter__'):
+            raise ValueError('Items must be iterable.')
+        if len(items) < 2:
+            raise ValueError('Union must contain at least 2 items.')
+        if not all(map(lambda x: isinstance(x, AST), items)):
+            raise ValueError('All items must be AST types.')
+        self.items = items
+
 Difference = namedtuple('Difference', 'items')
 Intersection = namedtuple('Intersection', 'items')
 

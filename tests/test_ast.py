@@ -201,3 +201,121 @@ def test_bad_polyhedron(points, triangles, quads):
     print(quads)
     with pytest.raises(ValueError):
         ast.Polyhedron(points, triangles, quads)
+
+
+### Transformations ###
+
+def test_good_translate():
+    circle = ast.Circle(5.5)
+    try:
+        translate = ast.Translate(x=1, y=-0.5, z=0, item=circle)
+    except ValueError:
+        pytest.fail()
+    assert translate.x == 1
+    assert translate.y == -0.5
+    assert translate.z == 0
+    assert translate.item == circle
+
+
+@pytest.mark.parametrize(('x', 'y', 'z', 'item'), [
+    (1, 0, 1, None),  # no item
+    (1, 0, 1, 'item'),  # non-AST item
+    (1, 0, 1, []),  # non-AST item
+])
+def test_bad_translate(x, y, z, item):
+    with pytest.raises(ValueError):
+        ast.Translate(x, y, z, item)
+
+
+def test_good_rotate():
+    circle = ast.Circle(5.5)
+    try:
+        rotate = ast.Rotate(90, (1, 0, 0), item=circle)
+    except ValueError:
+        pytest.fail()
+    assert rotate.degrees == 90
+    assert rotate.vector == (1, 0, 0)
+
+
+@pytest.mark.parametrize(('degrees', 'vector', 'item'), [
+    (30, (1, 0, 0), None),  # no item
+    (30, (1, 0, 0), 'item'),  # non-AST item
+    (30, '1, 0, 0', ast.Circle(1)),  # invalid vector
+    (30, (1, 0), ast.Circle(1)),  # invalid vector
+    (30, (0, 0, 0), ast.Circle(1)),  # invalid vector
+    (30, (2, 0, 0), ast.Circle(1)),  # invalid vector
+    (30, (0.5, 0, 0), ast.Circle(1)),  # invalid vector
+])
+def test_bad_rotate(degrees, vector, item):
+    with pytest.raises(ValueError):
+        ast.Rotate(degrees, vector, item)
+
+
+def test_good_scale():
+    cylinder = ast.Cylinder(10, 2, 2)
+    try:
+        scale = ast.Scale(x=1, y=0.5, z=2, item=cylinder)
+    except ValueError:
+        pytest.fail()
+    assert scale.x == 1
+    assert scale.y == 0.5
+    assert scale.z == 2
+    assert scale.item == cylinder
+
+
+@pytest.mark.parametrize(('x', 'y', 'z', 'item'), [
+    (1, 0.5, 2, None),  # no item
+    (1, 0.5, 2, 'item'),  # non-AST item
+    (1, 1, 0, ast.Cylinder(10, 2, 2)),  # zero z value
+])
+def test_bad_scale(x, y, z, item):
+    with pytest.raises(ValueError):
+        ast.Scale(x, y, z, item)
+
+
+def test_good_mirror():
+    cylinder = ast.Cylinder(10, 2, 2)
+    try:
+        mirror = ast.Mirror(x=1, y=1, z=0, item=cylinder)
+    except ValueError:
+        pytest.fail()
+    assert mirror.x == 1
+    assert mirror.y == 1
+    assert mirror.z == 0
+    assert mirror.item == cylinder
+
+
+@pytest.mark.parametrize(('x', 'y', 'z', 'item'), [
+    (1, 1, 0, None),  # no item
+    (1, 1, 0, 'item'),  # non-AST item
+    (0, 0, 0, ast.Sphere(1)),  # invalid vector
+    (2, 0, 0, ast.Sphere(1)),  # invalid vector
+    (0.5, 0, 0, ast.Sphere(1)),  # invalid vector
+])
+def test_bad_mirror(x, y, z, item):
+    with pytest.raises(ValueError):
+        ast.Mirror(x, y, z, item)
+
+
+### Boolean operations ###
+
+def test_good_union():
+    circle1 = ast.Circle(5.5)
+    circle2 = ast.Circle(2)
+    try:
+        union = ast.Union(items=[circle1, circle2])
+    except ValueError:
+        pytest.fail()
+    assert len(union.items) == 2
+    assert union.items[0] == circle1
+
+
+@pytest.mark.parametrize('items', [
+    [],  # empty list
+    1,  # non-iterable
+    [ast.Circle(5)],  # only 1 item
+    [ast.Circle(5), 2, 3],  # non-AST items
+])
+def test_bad_union(items):
+    with pytest.raises(ValueError):
+        ast.Union(items)
