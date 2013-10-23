@@ -9,7 +9,7 @@ from tangible.backends.openscad import OpenScadBackend
 
 
 # Read data into list
-datapoints = [list() for i in xrange(10)]
+datapoints = [list() for i in xrange(9)]
 with open('analytics-full-13.csv', 'r') as datafile:
     reader = csv.DictReader(datafile)
     for row in reader:
