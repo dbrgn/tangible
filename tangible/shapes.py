@@ -85,7 +85,7 @@ class RectangularTower2D(VerticalShape):
     distance between opposing corners."""
     def _build_ast(self):
         layers = [ast.Rectangle(d1, d2) for d1, d2 in self.data]
-        return utils.connect_2d_shapes(layers, self.layer_height, 'horizontal')
+        return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
 class Tower2D(VerticalShape):
