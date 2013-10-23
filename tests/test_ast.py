@@ -299,23 +299,62 @@ def test_bad_mirror(x, y, z, item):
 
 ### Boolean operations ###
 
-def test_good_union():
+@pytest.mark.parametrize('Cls', [ast.Union, ast.Difference, ast.Intersection])
+def test_good_boolean(Cls):
     circle1 = ast.Circle(5.5)
     circle2 = ast.Circle(2)
     try:
-        union = ast.Union(items=[circle1, circle2])
+        result = Cls(items=[circle1, circle2])
     except ValueError:
         pytest.fail()
-    assert len(union.items) == 2
-    assert union.items[0] == circle1
+    assert len(result.items) == 2
+    assert result.items[0] == circle1
 
 
+@pytest.mark.parametrize('Cls', [ast.Union, ast.Difference, ast.Intersection])
 @pytest.mark.parametrize('items', [
     [],  # empty list
     1,  # non-iterable
     [ast.Circle(5)],  # only 1 item
     [ast.Circle(5), 2, 3],  # non-AST items
 ])
-def test_bad_union(items):
+def test_bad_boolean(Cls, items):
     with pytest.raises(ValueError):
-        ast.Union(items)
+        Cls(items)
+
+
+### Extrusions ###
+
+def test_good_linear_extrusion():
+    try:
+        linear_extrusion = ast.LinearExtrusion(10, ast.Circle(3))
+    except ValueError:
+        pytest.fail()
+    assert linear_extrusion.height == 10
+    assert linear_extrusion.item.radius == 3
+
+
+@pytest.mark.parametrize('item', [
+    None,  # no item
+    'foo',  # non-AST item
+])
+def test_bad_linear_extrusion(item):
+    with pytest.raises(ValueError):
+        ast.LinearExtrusion(10, item)
+
+
+def test_good_rotate_extrusion():
+    try:
+        rotate_extrusion = ast.RotateExtrusion(ast.Circle(3))
+    except ValueError:
+        pytest.fail()
+    assert rotate_extrusion.item.radius == 3
+
+
+@pytest.mark.parametrize('item', [
+    None,  # no item
+    'foo',  # non-AST item
+])
+def test_bad_rotate_extrusion(item):
+    with pytest.raises(ValueError):
+        ast.RotateExtrusion(item)

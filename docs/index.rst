@@ -40,14 +40,14 @@ Table of Contents
 =================
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
-   shapes
-   scales
-   utils
-   ast
-   backends
-   examples
+    shapes
+    scales
+    utils
+    ast
+    backends
+    examples
 
 
 Indices and tables

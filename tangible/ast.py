@@ -9,7 +9,6 @@ representation of 3D objects. It is implemented using namedtuples.
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 from itertools import chain
-from collections import namedtuple
 
 __VERSION__ = '1'
 
@@ -317,9 +316,15 @@ class Mirror(AST):
 
 ### Boolean operations ###
 
-class Union(AST):
-    """A union operation."""
+class _BooleanOperation(AST):
+    """Base class for boolean operations that only take the ``items`` argument."""
     def __init__(self, items):
+        """
+        :param items: List of AST objects.
+        :type items: list
+        :raises: ValueError if validation fails
+
+        """
         if not items:
             raise ValueError('Items are required.')
         if not hasattr(items, '__iter__'):
@@ -330,9 +335,52 @@ class Union(AST):
             raise ValueError('All items must be AST types.')
         self.items = items
 
-Difference = namedtuple('Difference', 'items')
-Intersection = namedtuple('Intersection', 'items')
 
-# Extrusions
-LinearExtrusion = namedtuple('LinearExtrusion', 'height')
-RotateExtrusion = namedtuple('RotateExtrusion', 'twist')
+class Union(_BooleanOperation):
+    """A union operation."""
+    pass
+
+
+class Difference(_BooleanOperation):
+    """A difference operation."""
+    pass
+
+
+class Intersection(_BooleanOperation):
+    """A intersection operation."""
+    pass
+
+
+### Extrusions ###
+
+class LinearExtrusion(AST):
+    """A linear extrusion."""
+    def __init__(self, height, item):
+        """
+        :param height: The height of the extrusion.
+        :type height: int or float
+        :param item: An AST object.
+        :type item: tangible.ast.AST
+
+        """
+        if not item:
+            raise ValueError('Item is required.')
+        if not isinstance(item, AST):
+            raise ValueError('Item must be an AST type.')
+        self.height = height
+        self.item = item
+
+
+class RotateExtrusion(AST):
+    """A rotational extrusion around the z axis."""
+    def __init__(self, item):
+        """
+        :param item: An AST object.
+        :type item: tangible.ast.AST
+
+        """
+        if not item:
+            raise ValueError('Item is required.')
+        if not isinstance(item, AST):
+            raise ValueError('Item must be an AST type.')
+        self.item = item
