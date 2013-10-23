@@ -6,3 +6,6 @@ install:
     - pip install -e .
 script:
     - py.test
+after_script:
+    - pip install --quiet --use-mirrors coveralls
+    - coveralls

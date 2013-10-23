@@ -2,8 +2,12 @@ Tangible
 ========
 
 .. image:: https://secure.travis-ci.org/dbrgn/tangible.png?branch=master
-    :alt: Build status
+    :alt: Travis-CI build status
     :target: http://travis-ci.org/dbrgn/tangible
+
+.. image:: https://coveralls.io/repos/dbrgn/tangible/badge.png?branch=master
+    :target: https://coveralls.io/r/dbrgn/tangible
+    :alt: Coverage Status
 
 **WARNING: Project is still under initial development. Git history may be
 changed and force-pushed at any time.**
