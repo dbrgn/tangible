@@ -20,15 +20,15 @@ class Shape(object):
         raise NotImplementedError('_build_ast method not implemented.')
 
     def render(self, backend):
-        """Build the AST and render it using the selected backend.
+        """Build the AST and generate code using the selected backend.
 
-        :param backend: The backend class used to render the AST. Must accept
-            the AST as constructor argument and provide a ``render()`` method.
+        :param backend: The backend class used to process the AST. Must accept
+            the AST as constructor argument and provide a ``generate()`` method.
         :returns: The resulting source code as a string.
 
         """
         self.ast = self._build_ast()
-        return backend(self.ast).render()
+        return backend(self.ast).generate()
 
 
 ### MAIN SHAPE TYPES ###

@@ -85,18 +85,25 @@ class Program(Block):
 
 
 class OpenScadBackend(object):
+    """Render AST to OpenSCAD source code."""
 
     def __init__(self, ast):
+        """
+        :param ast: The AST that should be rendered.
+        :type ast: :class:`tangible.ast.AST` subclass
+
+        """
         self.ast = ast
 
-    def render(self):
+    def generate(self):
+        """Generate OpenSCAD source code from the AST."""
         prgm = Program()
         BLOCK = prgm.block
         STMT = prgm.statement
         SEP = prgm.emptyline
 
-        def _render(node):
-            """Recursive rendering function."""
+        def _generate(node):
+            """Recursive code generating function."""
 
             istype = lambda t: isinstance(node, t)
 
@@ -104,7 +111,7 @@ class OpenScadBackend(object):
 
             if istype(list):
                 for item in node:
-                    _render(item)
+                    _generate(item)
 
             # 2D shapes
 
@@ -131,7 +138,15 @@ class OpenScadBackend(object):
                 STMT('cylinder({}, {}, {})', node.height, node.radius1, node.radius2)
             elif istype(ast.Polyhedron):
                 points = map(list, node.points)
-                triangles = map(list, node.triangles)
+                if node.polygon_type == 'triangles':
+                    # Triangles can be used directly
+                    triangles = map(list, node.triangles)
+                else:
+                    # Quads have to be converted into triangles
+                    triangles = []
+                    for quad in node.quads:
+                        triangles.append([quad[0], quad[1], quad[2]])
+                        triangles.append([quad[0], quad[2], quad[3]])
                 template = 'polyhedron(\npoints={!r},\n    triangles={!r}\n)'
                 STMT(template, points, triangles)
 
@@ -139,28 +154,28 @@ class OpenScadBackend(object):
 
             elif istype(ast.Translate):
                 with BLOCK('translate([{}, {}, {}])', node.x, node.y, node.z):
-                    _render(node.item)
+                    _generate(node.item)
             elif istype(ast.Rotate):
                 with BLOCK('rotate({}, {!r})', node.degrees, node.vector):
-                    _render(node.item)
+                    _generate(node.item)
             elif istype(ast.Scale):
                 with BLOCK('scale([{}, {}, {}])', node.x, node.y, node.z):
-                    _render(node.item)
+                    _generate(node.item)
             elif istype(ast.Mirror):
                 with BLOCK('mirror([{}, {}, {}])', node.x, node.y, node.z):
-                    _render(node.item)
+                    _generate(node.item)
 
             # Boolean operations
 
             elif istype(ast.Union):
                 with BLOCK('union()'):
-                    _render(node.items)
+                    _generate(node.items)
             elif istype(ast.Difference):
                 with BLOCK('difference()'):
-                    _render(node.items)
+                    _generate(node.items)
             elif istype(ast.Intersection):
                 with BLOCK('intersection()'):
-                    _render(node.items)
+                    _generate(node.items)
 
             # Extrusions
 
@@ -169,6 +184,6 @@ class OpenScadBackend(object):
             elif istype(ast.RotateExtrusion):
                 STMT('rotate_extrude(twist={})', node.twist)
 
-        _render(self.ast)
+        _generate(self.ast)
 
         return prgm.render()

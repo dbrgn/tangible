@@ -148,7 +148,7 @@ class Cylinder(AST):
 
 
 class Polyhedron(AST):
-    """A polyhedron 3D shape."""
+    """A polyhedron 3D shape. Supports both triangles and quads."""
     def __init__(self, points, triangles=None, quads=None):
         """
         Either triangles or quads must be specified, but not both.
