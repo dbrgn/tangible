@@ -29,6 +29,22 @@ def pairwise(iterable):
     return izip(a, b)
 
 
+def quads_to_triangles(quads):
+    """Convert a list of quads to a list of triangles.
+
+    :param quads: The list of quads.
+    :type quads: list of 4-tuples
+    :returns: List of triangles.
+    :rtype: list of 3-tuples
+
+    """
+    triangles = []
+    for quad in quads:
+        triangles.append([quad[0], quad[1], quad[2]])
+        triangles.append([quad[0], quad[2], quad[3]])
+    return triangles
+
+
 def connect_2d_shapes(shapes, layer_distance, orientation):
     """Convert a list of 2D shapes to a 3D shape.
 

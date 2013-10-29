@@ -141,59 +141,53 @@ def test_good_polyhedron():
     try:
         points = [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)]
         triangles = [(0, 1, 2), (1, 0, 3), (1, 3, 2), (0, 2, 3)]
-        polyhedron = ast.Polyhedron(points, triangles)
+        quads = [(0, 1, 2, 3)]
+        ast.Polyhedron(points, triangles=triangles)
+        ast.Polyhedron(points, quads=quads)
+        polyhedron = ast.Polyhedron(points, quads=quads, triangles=triangles)
     except ValueError:
         pytest.fail()
     assert polyhedron.points == points
     assert polyhedron.triangles == triangles
-
-
-def test_polyhedron_type():
-    points = [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)]
-    triangles = [(0, 1, 2), (1, 0, 3), (1, 3, 2), (0, 2, 3)]
-    quads = [(0, 1, 2, 3)]
-    polyhedron3 = ast.Polyhedron(points, triangles=triangles)
-    polyhedron4 = ast.Polyhedron(points, quads=quads)
-    assert polyhedron3.polygon_type == 'triangles'
-    assert polyhedron4.polygon_type == 'quads'
+    assert polyhedron.quads == quads
 
 
 @pytest.mark.parametrize(('points', 'triangles', 'quads'), [
     (  # Not enough points
         [(0, 0, 0), (1, 0, 0), (1, 1, 0)],
-        [(0, 1, 2)], None
-    ),
-    (  # Both triangles and quads
-        [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
-        [(0, 1, 2)], [(0, 1, 2, 3)],
+        [(0, 1, 2)], []
     ),
     (  # Neither triangles nor quads
         [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
-        None, None,
+        [], [],
     ),
     (  # Invalid triangles
         [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
-        [(0, 1, 2), (1, 0, 3, 4), (1, 3, 2), (0, 2, 3)], None
+        [(0, 1, 2), (1, 0, 3, 4), (1, 3, 2), (0, 2, 3)], []
     ),
     (  # Invalid quads
         [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
-        None, [(0, 1, 2), (1, 0, 3, 4), (1, 3, 2), (0, 2, 3)]
+        [], [(0, 1, 2), (1, 0, 3, 4), (1, 3, 2), (0, 2, 3)]
     ),
     (  # Referenced invalid point in triangles (too large)
         [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
-        [(0, 1, 4), (1, 0, 3), (1, 3, 2), (0, 2, 3)], None
+        [(0, 1, 4), (1, 0, 3), (1, 3, 2), (0, 2, 3)], []
     ),
     (  # Referenced invalid point in triangles (negative)
         [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
-        [(0, 1, -1), (1, 0, 3), (1, 3, 2), (0, 2, 3)], None
+        [(0, 1, -1), (1, 0, 3), (1, 3, 2), (0, 2, 3)], []
     ),
     (  # Referenced invalid point in quads (too large)
         [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
-        None, [(0, 1, 2, 4)]
+        [], [(0, 1, 2, 4)]
+    ),
+    (  # Referenced invalid point in quads (too large)
+        [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
+        [(0, 1, 2), (0, 1, 3)], [(0, 1, 2, 4)]
     ),
     (  # Referenced invalid point in quads (negative)
         [(0, 0, 0), (1, 0, 0), (1, 1, 0), (1, 1, 1)],
-        None, [(0, 1, 2, -1)]
+        [], [(0, 1, 2, -1)]
     ),
 ])
 def test_bad_polyhedron(points, triangles, quads):

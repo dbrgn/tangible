@@ -68,9 +68,9 @@ class Polygon(AST):
     """A polygon 2D shape."""
     def __init__(self, points):
         """
-        :param points: List of coordinates. Ordering is important. The shape
-            must be closed, meaning that the first and the last coordinate must be
-            the same.
+        :param points: List of coordinates. Order of points is significant. The
+            shape must be closed, meaning that the first and the last coordinate
+            must be the same.
         :type points: list of 2-tuples
         :raises: ValueError if validation fails.
 
@@ -148,20 +148,19 @@ class Cylinder(AST):
 
 
 class Polyhedron(AST):
-    """A polyhedron 3D shape. Supports both triangles and quads."""
-    def __init__(self, points, triangles=None, quads=None):
+    """A polyhedron 3D shape. Supports both triangles and quads. Triangles and
+    quads can also be mixed."""
+    def __init__(self, points, triangles=[], quads=[]):
         """
-        Either triangles or quads must be specified, but not both.
-
         :param points: List of points.
         :type points: list of 3-tuples
         :param triangles: Triangles formed by a 3-tuple of point indexes (e.g.
             ``(0, 1, 3)``). When looking at the triangle from outside, the points
-            must be in clockwise order.
+            must be in clockwise order. Default: ``[]``.
         :type triangles: list of 3-tuples
         :param quads: Rectangles formed by a 4-tuple of point indexes (e.g.
             ``(0, 1, 3, 4)``). When looking at the rectangle from outside, the
-            points must be in clockwise order.
+            points must be in clockwise order. Default: ``[]``.
         :type quads: list of 4-tuples
         :raises: ValueError if validation fails.
 
@@ -170,8 +169,6 @@ class Polyhedron(AST):
             raise ValueError('There must be at least 4 points in a polyhedron.')
         if set(map(len, points)) != set([3]):
             raise ValueError('Invalid point tuples (must be 3-tuples).')
-        if triangles and quads:
-            raise ValueError('Only triangles or quads may be specified, not both.')
         if not (triangles or quads):
             raise ValueError('Either triangles or quads must be specified.')
         if triangles:
@@ -180,8 +177,8 @@ class Polyhedron(AST):
         if quads:
             if set(map(len, quads)) != set([4]):
                 raise ValueError('Invalid quad tuples (must be 4-tuples).')
-        max_value = max(chain(*triangles)) if triangles else max(chain(*quads))
-        min_value = min(chain(*triangles)) if triangles else min(chain(*quads))
+        max_value = max(chain(*(triangles + quads)))
+        min_value = min(chain(*(triangles + quads)))
         if max_value >= len(points):
             raise ValueError('Invalid point index: {}'.format(max_value))
         if min_value < 0:
@@ -189,7 +186,6 @@ class Polyhedron(AST):
         self.points = points
         self.triangles = triangles
         self.quads = quads
-        self.polygon_type = 'triangles' if triangles else 'quads'
 
 
 ### Transformations ###

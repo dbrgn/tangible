@@ -3,7 +3,7 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 from contextlib import contextmanager
 
-from tangible import ast
+from tangible import ast, utils
 
 
 class Statement(object):
@@ -138,15 +138,9 @@ class OpenScadBackend(object):
                 STMT('cylinder({}, {}, {})', node.height, node.radius1, node.radius2)
             elif istype(ast.Polyhedron):
                 points = map(list, node.points)
-                if node.polygon_type == 'triangles':
-                    # Triangles can be used directly
-                    triangles = map(list, node.triangles)
-                else:
-                    # Quads have to be converted into triangles
-                    triangles = []
-                    for quad in node.quads:
-                        triangles.append([quad[0], quad[1], quad[2]])
-                        triangles.append([quad[0], quad[2], quad[3]])
+                triangles = map(list, node.triangles) if node.triangles else []
+                if node.quads:
+                    triangles.extend(utils.quads_to_triangles(node.quads))
                 template = 'polyhedron(\npoints={!r},\n    triangles={!r}\n)'
                 STMT(template, points, triangles)
 
