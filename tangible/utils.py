@@ -95,20 +95,16 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
             points.extend(get_layer_points(w1, h1, 0))
             points.extend(get_layer_points(w2, h2, layer_distance))
 
-            # TODO convert to quads
-            triangles = [
+            quads = [
                 # Bottom
-                [0, 1, 3], [1, 2, 3],
+                [0, 1, 2, 3],
                 # Top
-                [4, 6, 5], [4, 7, 6],
+                [4, 7, 6, 5],
                 # Sides
-                [3, 2, 7], [2, 6, 7],
-                [0, 3, 4], [3, 7, 4],
-                [1, 0, 5], [0, 4, 5],
-                [2, 1, 6], [1, 5, 6],
+                [0, 4, 5, 1], [1, 5, 6, 2], [2, 6, 7, 3], [3, 7, 4, 0],
             ]
 
-            layer = Polyhedron(points=points, triangles=triangles)
+            layer = Polyhedron(points=points, quads=quads)
 
         # Polygon
         # Implemented by joining polyhedra.
