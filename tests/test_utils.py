@@ -89,6 +89,61 @@ class TestRectangleConnect(object):
         assert result == ast.Rotate(90, vector, self.union)
 
 
+class TestPolygonConnect(object):
+
+    @classmethod
+    def setup_class(cls):
+        cls.shapes = [
+            ast.Polygon(points=[(3, 0), (3, 4), (-2, 3), (-3, 0), (0, -2), (3, 0)]),
+            ast.Polygon(points=[(3, 0), (0, 2), (-3, 0), (-2, -3), (2, -3), (3, 0)]),
+            ast.Polygon(points=[(3, 0), (3, 4), (-2, 3), (-3, 0), (0, -2), (3, 0)]),
+        ]
+        quads = [[1, 0, 5, 6], [2, 1, 6, 7], [3, 2, 7, 8], [4, 3, 8, 9], [0, 4, 9, 5]]
+        triangles = [
+            [0, 1, 2], [7, 6, 5],
+            [0, 2, 3], [8, 7, 5],
+            [0, 3, 4], [9, 8, 5],
+        ]
+        cls.union = ast.Union(items=[
+            ast.Translate(0, 0, 0,
+                ast.Polyhedron(points=[
+                    [3, 0, 0], [3, 4, 0], [-2, 3, 0], [-3, 0, 0], [0, -2, 0],
+                    [3, 0, 5], [0, 2, 5], [-3, 0, 5], [-2, -3, 5], [2, -3, 5],
+                ], quads=quads, triangles=triangles)
+            ),
+            ast.Translate(0, 0, 5,
+                ast.Polyhedron(points=[
+                    [3, 0, 0], [0, 2, 0], [-3, 0, 0], [-2, -3, 0], [2, -3, 0],
+                    [3, 0, 5], [3, 4, 5], [-2, 3, 5], [-3, 0, 5], [0, -2, 5],
+                ], quads=quads, triangles=triangles)
+            ),
+        ])
+
+    def test_vertical_points(self):
+        result = utils.connect_2d_shapes(self.shapes, 5, 'vertical')
+        assert result.items[0].item.points == self.union.items[0].item.points
+        assert result.items[1].item.points == self.union.items[1].item.points
+
+    def test_vertical_triangles(self):
+        result = utils.connect_2d_shapes(self.shapes, 5, 'vertical')
+        assert result.items[0].item.triangles == self.union.items[0].item.triangles
+        assert result.items[1].item.triangles == self.union.items[1].item.triangles
+
+    def test_vertical_quads(self):
+        result = utils.connect_2d_shapes(self.shapes, 5, 'vertical')
+        assert result.items[0].item.quads == self.union.items[0].item.quads
+        assert result.items[1].item.quads == self.union.items[1].item.quads
+
+    def test_vertical(self):
+        result = utils.connect_2d_shapes(self.shapes, 5, 'vertical')
+        assert result == self.union
+
+    def test_horizontal(self):
+        result = utils.connect_2d_shapes(self.shapes, 5, 'horizontal')
+        vector = [0, 1, 0]
+        assert result == ast.Rotate(90, vector, self.union)
+
+
 def test_connect_heterogenous_handling():
     """Assert that heterogenous shapes cannot be merged."""
     shapes = [ast.Circle(5), ast.Rectangle(2, 3)]

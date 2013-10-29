@@ -95,6 +95,7 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
             points.extend(get_layer_points(w1, h1, 0))
             points.extend(get_layer_points(w2, h2, layer_distance))
 
+            # TODO convert to quads
             triangles = [
                 # Bottom
                 [0, 1, 3], [1, 2, 3],
@@ -112,7 +113,34 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
         # Polygon
         # Implemented by joining polyhedra.
         elif isinstance(first, Polygon):
-            raise NotImplementedError('Not yet implemented.')
+            if len(first.points) != len(second.points):
+                raise ValueError('All polygons need to have the same number of points.')
+
+            vertice_count = len(first.points) - 1
+
+            points = []
+            for point in first.points[:-1]:
+                points.append(list(point) + [0])
+            for point in second.points[:-1]:
+                points.append(list(point) + [layer_distance])
+
+            triangles = []
+            quads = []
+            for j in xrange(vertice_count):
+                # Sides
+                quads.append([
+                    (j + 1) % vertice_count,  # lower right
+                    j,  # lower left
+                    vertice_count + j,  # upper left
+                    vertice_count + (j + 1) % vertice_count  # upper right
+                ])
+                if j >= 2 and j < vertice_count:
+                    # Bottom
+                    triangles.append([0, j - 1, j])
+                    # Top
+                    triangles.append([vertice_count + j, vertice_count + j - 1, vertice_count])
+
+            layer = Polyhedron(points=points, quads=quads, triangles=triangles)
 
         layers.append(Translate(0, 0, i * layer_distance, item=layer))
     union = Union(items=layers)

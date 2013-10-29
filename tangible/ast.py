@@ -28,6 +28,10 @@ class AST(object):
         """Inverse of ``__eq__``."""
         return not self.__eq__(other)
 
+    def __repr__(self):
+        name = self.__class__.__name__
+        return '<AST/{0}: {1}>'.format(name, id(self))
+
 
 ### 2D shapes ###
 
