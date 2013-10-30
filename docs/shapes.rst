@@ -39,14 +39,14 @@ Bar Shapes
 Vertical Shapes
 ###############
 
-.. autoclass:: tangible.shapes.Tower
+.. autoclass:: tangible.shapes.CircleTower1D
     :members:
 
-.. autoclass:: tangible.shapes.Tower2D
+.. autoclass:: tangible.shapes.SquareTower1D
     :members:
 
-.. autoclass:: tangible.shapes.RectangularTower
+.. autoclass:: tangible.shapes.RectangleTower2D
     :members:
 
-.. autoclass:: tangible.shapes.RectangularTower2D
+.. autoclass:: tangible.shapes.RhombusTower2D
     :members:

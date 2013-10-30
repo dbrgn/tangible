@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
+from itertools import izip
+
 from . import ast, utils
 
 
@@ -66,70 +68,44 @@ class BarsShape(Shape):
 
 ### CUSTOM SHAPES ###
 
-class Tower(VerticalShape):
+class CircleTower1D(VerticalShape):
     """Round vertical tower. Datapoints are mapped to radius."""
     def _build_ast(self):
         layers = [ast.Circle(radius=d) for d in self.data]
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
-class RectangularTower(VerticalShape):
-    """Vertical tower with squares as layers. Datapoints are mapped to width/height."""
+class SquareTower1D(VerticalShape):
+    """Vertical tower made of squares. Datapoints are mapped to square side length."""
     def _build_ast(self):
-        layers = [ast.Rectangle(d, d) for d in self.data]
+        layers = [ast.Rectangle(width=d, height=d) for d in self.data]
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
-class RectangularTower2D(VerticalShape):
-    """Vertical tower with 4-sided polygons as layers. Datapoints are mapped to
-    distance between opposing corners."""
+class RectangleTower2D(VerticalShape):
+    """Vertical tower made of rectangles. Datapoints are mapped to width and
+    height of rectangle."""
     def _build_ast(self):
-        layers = [ast.Rectangle(d1, d2) for d1, d2 in self.data]
+        if len(self.data[0]) != len(self.data[1]):
+            raise ValueError('Both datasets need to have the same length.')
+        layers = [ast.Rectangle(width=a, height=b) for a, b in izip(*self.data)]
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
-class Tower2D(VerticalShape):
-
+class RhombusTower2D(VerticalShape):
+    """Vertical tower made of rhombi. Datapoints are mapped to distance between
+    opposing corners."""
     def _build_ast(self):
+        if len(self.data[0]) != len(self.data[1]):
+            raise ValueError('Both datasets need to have the same length.')
         layers = []
-        for i in range(len(self.data[0]) - 1):
-            lower1 = self.data[0][i]
-            lower2 = self.data[1][i]
-            upper1 = self.data[0][i + 1]
-            upper2 = self.data[1][i + 1]
-            z = i * self.layer_height
-            points = [
-                # Lower layer
-                (lower1, 0, z),
-                (0, lower2, z),
-                (-lower1, 0, z),
-                (0, -lower2, z),
-                # Upper layer
-                (upper1, 0, z + self.layer_height),
-                (0, upper2, z + self.layer_height),
-                (-upper1, 0, z + self.layer_height),
-                (0, -upper2, z + self.layer_height),
-            ]
-            triangles = [
-                # Bottom triangles
-                (0, 1, 3),
-                (1, 2, 3),
-                # Top triangles
-                (4, 7, 5),
-                (5, 7, 6),
-                # Sides
-                (0, 7, 4),
-                (0, 3, 7),
-                (1, 4, 5),
-                (1, 0, 4),
-                (2, 5, 6),
-                (2, 1, 5),
-                (3, 6, 7),
-                (3, 2, 6),
-            ]
-            layer = ast.Polyhedron(points, triangles)
-            layers.append(layer)
-        return ast.Union(items=layers)
+        for a, b in izip(*self.data):
+            rhombus = ast.Polygon([(0, a / 2), (b / 2, 0), (0, -a / 2), (-b / 2, 0), (0, a / 2)])
+            layers.append(rhombus)
+        return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
+
+
+# TODO: PolygonTowerND
 
 
 class Bars2D(BarsShape):

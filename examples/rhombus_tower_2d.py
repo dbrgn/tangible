@@ -8,14 +8,13 @@ from tangible.backends.openscad import OpenScadBackend
 
 
 datapoints = [
-    [6, 6],
-    [10, 6],
-    [6, 22],
+    [6, 10, 6],
+    [6, 6, 22],
 ]
 
 
 # Create shape
-tower = shapes.RectangularTower2D(datapoints, layer_height=10)
+tower = shapes.RhombusTower2D(datapoints, layer_height=10)
 
 code = tower.render(backend=OpenScadBackend)
 print(code)

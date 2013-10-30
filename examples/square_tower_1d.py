@@ -22,7 +22,7 @@ datapoints = map(scale, datapoints)
 
 
 # Create shape
-tower = shapes.Tower(datapoints, layer_height=10)
+tower = shapes.SquareTower1D(datapoints, layer_height=10)
 
 code = tower.render(backend=OpenScadBackend)
 print(code)
