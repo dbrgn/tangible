@@ -31,9 +31,11 @@ Bar Shapes
 
 .. autoclass:: tangible.shapes.Bars2D
     :members:
+.. image:: _static/img/shapes/bars_2d.png
 
 .. autoclass:: tangible.shapes.Bars3D
     :members:
+.. image:: _static/img/shapes/bars_3d.png
 
 
 Vertical Shapes
@@ -41,12 +43,16 @@ Vertical Shapes
 
 .. autoclass:: tangible.shapes.CircleTower1D
     :members:
+.. image:: _static/img/shapes/circle_tower_1d.png
 
 .. autoclass:: tangible.shapes.SquareTower1D
     :members:
+.. image:: _static/img/shapes/square_tower_1d.png
 
 .. autoclass:: tangible.shapes.RectangleTower2D
     :members:
+.. image:: _static/img/shapes/rectangle_tower_2d.png
 
 .. autoclass:: tangible.shapes.RhombusTower2D
     :members:
+.. image:: _static/img/shapes/rhombus_tower_2d.png

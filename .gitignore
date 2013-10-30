@@ -40,3 +40,7 @@ nosetests.xml
 
 # Sphinx
 docs/_build
+
+# Examples
+examples/*.scad
+examples/*.png
