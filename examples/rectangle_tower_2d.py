@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
-import csv
-
-from tangible import scales, shapes
+from tangible import shapes
 from tangible.backends.openscad import OpenScadBackend
 
 
