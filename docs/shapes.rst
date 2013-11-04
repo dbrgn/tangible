@@ -56,3 +56,7 @@ Vertical Shapes
 .. autoclass:: tangible.shapes.RhombusTower2D
     :members:
 .. image:: _static/img/shapes/rhombus_tower_2d.png
+
+.. autoclass:: tangible.shapes.QuadrilateralTower4D
+    :members:
+.. image:: _static/img/shapes/quadrilateral_tower_4d.png

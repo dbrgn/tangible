@@ -33,6 +33,46 @@ class Shape(object):
         return backend(self.ast).generate()
 
 
+### MIXINS ###
+
+class Data1DMixin(object):
+    """Validate 1 dimensional data."""
+    def __init__(self, data, *args, **kwargs):
+        if not len(data):
+            raise ValueError('Data must not be empty.')
+        super(Data1DMixin, self).__init__(data, *args, **kwargs)
+
+
+class Data2DMixin(object):
+    """Validate 2 dimensional data."""
+    def __init__(self, data, *args, **kwargs):
+        if len(data) != 2:
+            msg = 'Data must be 2-dimensional, but it contains {} datasets.'
+            raise ValueError(msg.format(len(data)))
+        super(Data2DMixin, self).__init__(data, *args, **kwargs)
+
+
+class Data4DMixin(object):
+    """Validate 4 dimensional data."""
+    def __init__(self, data, *args, **kwargs):
+        if len(data) != 4:
+            msg = 'Data must be 4-dimensional, but it contains {} datasets.'
+            raise ValueError(msg.format(len(data)))
+        super(Data4DMixin, self).__init__(data, *args, **kwargs)
+
+
+class SameLengthDatasetMixin(object):
+    """Make sure that each dataset in multi dimensional data has the same
+    length."""
+    def __init__(self, data, *args, **kwargs):
+        if len(data) < 2:
+            raise ValueError('Data must contain at least 2 datasets.')
+        lengths = map(len, data)
+        if len(set(lengths)) != 1:
+            raise ValueError('All datasets in data must be of the same length.')
+        super(SameLengthDatasetMixin, self).__init__(data, *args, **kwargs)
+
+
 ### MAIN SHAPE TYPES ###
 
 class VerticalShape(Shape):
@@ -68,40 +108,47 @@ class BarsShape(Shape):
 
 ### CUSTOM SHAPES ###
 
-class CircleTower1D(VerticalShape):
+class CircleTower1D(Data1DMixin, VerticalShape):
     """Round vertical tower. Datapoints are mapped to radius."""
     def _build_ast(self):
         layers = [ast.Circle(radius=d) for d in self.data]
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
-class SquareTower1D(VerticalShape):
+class SquareTower1D(Data1DMixin, VerticalShape):
     """Vertical tower made of squares. Datapoints are mapped to square side length."""
     def _build_ast(self):
         layers = [ast.Rectangle(width=d, height=d) for d in self.data]
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
-class RectangleTower2D(VerticalShape):
+class RectangleTower2D(Data2DMixin, SameLengthDatasetMixin, VerticalShape):
     """Vertical tower made of rectangles. Datapoints are mapped to width and
     height of rectangle."""
     def _build_ast(self):
-        if len(self.data[0]) != len(self.data[1]):
-            raise ValueError('Both datasets need to have the same length.')
         layers = [ast.Rectangle(width=a, height=b) for a, b in izip(*self.data)]
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
-class RhombusTower2D(VerticalShape):
+class RhombusTower2D(Data2DMixin, SameLengthDatasetMixin, VerticalShape):
     """Vertical tower made of rhombi. Datapoints are mapped to distance between
     opposing corners."""
     def _build_ast(self):
-        if len(self.data[0]) != len(self.data[1]):
-            raise ValueError('Both datasets need to have the same length.')
         layers = []
         for a, b in izip(*self.data):
             rhombus = ast.Polygon([(0, a / 2), (b / 2, 0), (0, -a / 2), (-b / 2, 0), (0, a / 2)])
             layers.append(rhombus)
+        return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
+
+
+class QuadrilateralTower4D(Data4DMixin, SameLengthDatasetMixin, VerticalShape):
+    """Vertical tower made of quadrilaterals (polygons with 4 vertices).
+    Datapoints are mapped to distance between center and the corners."""
+    def _build_ast(self):
+        layers = []
+        for a, b, c, d in izip(*self.data):
+            quadrilateral = ast.Polygon([(0, a), (b, 0), (0, -c), (-d, 0), (0, a)])
+            layers.append(quadrilateral)
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
