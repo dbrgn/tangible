@@ -13,6 +13,27 @@ data2d = [[1, 2, 3], [4, 5, 6]]
 data4d = [[1, 2], [3, 4], [5, 6], [7, 8]]
 
 
+@pytest.mark.parametrize('data', [
+    [1, 2, 3],
+    (1, 2, 3),
+    [[1, 2], [3, 4, 5], (6, 7)],
+])
+def test_valid_base_shape(data):
+    try:
+        Shape(data)
+    except ValueError:
+        pytest.fail()
+
+
+@pytest.mark.parametrize('data', [
+    '',
+    None,
+])
+def test_invalid_base_shape(data):
+    with pytest.raises(ValueError):
+        Shape(data)
+
+
 @pytest.mark.parametrize(('data', 'Mixin'), [
     ([], shapes.Data1DMixin),
     (data1d_flat, shapes.Data2DMixin),

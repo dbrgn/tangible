@@ -33,9 +33,9 @@ Bar Shapes
     :members:
 .. image:: _static/img/shapes/bars_1d.png
 
-.. autoclass:: tangible.shapes.BarsGrouped1D
+.. autoclass:: tangible.shapes.BarsND
     :members:
-.. image:: _static/img/shapes/bars_grouped_1d.png
+.. image:: _static/img/shapes/barsnd.png
 
 
 Vertical Shapes

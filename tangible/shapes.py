@@ -17,6 +17,8 @@ class Shape(object):
     """
     def __init__(self, data):
         self.data = data
+        if not hasattr(data, '__iter__'):
+            raise ValueError('Data must be a sequence type (e.g. a list)')
 
     def _build_ast(self):
         raise NotImplementedError('_build_ast method not implemented.')
@@ -59,6 +61,16 @@ class Data4DMixin(object):
             msg = 'Data must be 4-dimensional, but it contains {} datasets.'
             raise ValueError(msg.format(len(data)))
         super(Data4DMixin, self).__init__(data, *args, **kwargs)
+
+
+class DataNDMixin(object):
+    """Validate n dimensional data."""
+    def __init__(self, data, *args, **kwargs):
+        if not len(data):
+            raise ValueError('Data must not be empty.')
+        if not all(map(lambda x: hasattr(x, '__iter__'), data)):
+            raise ValueError('All data items must be a sequence type (e.g. a list).')
+        super(DataNDMixin, self).__init__(data, *args, **kwargs)
 
 
 class SameLengthDatasetMixin(object):
@@ -170,11 +182,12 @@ class Bars1D(Data1DMixin, BarsShape):
         return ast.Translate(x=-x_offset, y=0, z=0, item=model)
 
 
-class BarsGrouped1D(Data1DMixin, BarsShape):
+class BarsND(DataNDMixin, BarsShape):
     """Vertical bars aligned next to each other horizontally. Datapoints are
-    mapped to bar height. Multiple layers of bars."""
+    mapped to bar height. Multiple layers of bars (matching number of
+    datasets)."""
     def __init__(self, data, bar_width, bar_depth, center_layers=False):
-        super(BarsGrouped1D, self).__init__(data, bar_width, bar_depth)
+        super(BarsND, self).__init__(data, bar_width, bar_depth)
         self.center_layers = center_layers
 
     def _build_ast(self):
@@ -184,11 +197,12 @@ class BarsGrouped1D(Data1DMixin, BarsShape):
             layer = bars1d._build_ast()
             if not self.center_layers:
                 layer = layer.item
-            x_offset = (i % 2) * 0.1  # Used to prevent "invalid 2-manifold" error
+            x_offset = (i % 2) * 0.1  # Hack: Used to prevent "invalid 2-manifold" error
+                                      # TODO: should probably be in backend
             translated = ast.Translate(x=x_offset, y=i * self.bar_depth, z=0, item=layer)
             layers.append(translated)
         model = ast.Union(items=layers)
         # Center model
-        #x_offset =
+        #x_offset = TODO
         y_offset = len(self.data) / 2 * self.bar_depth
         return ast.Translate(x=0, y=-y_offset, z=0, item=model)

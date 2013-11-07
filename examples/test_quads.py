@@ -21,6 +21,6 @@ class Quads(shapes.Shape):
         return ast.Polyhedron(points=points, quads=quads)
 
 
-q = Quads(0)
+q = Quads([])
 code = q.render(backend=OpenScadBackend)
 print(code)
