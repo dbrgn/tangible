@@ -22,7 +22,7 @@ datapoints = map(scale, datapoints)
 
 
 # Create shape
-bars2d = shapes.Bars2D(datapoints, bar_width=10, bar_depth=10)
+bars1d = shapes.Bars1D(datapoints, bar_width=10, bar_depth=10)
 
-code = bars2d.render(backend=OpenScadBackend)
+code = bars1d.render(backend=OpenScadBackend)
 print(code)

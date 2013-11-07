@@ -26,7 +26,7 @@ datapoints = map(lambda x: map(scale, x), datapoints)
 
 
 # Create shape
-bars3d = shapes.Bars3D(datapoints, bar_width=7, bar_depth=7, center_layers=True)
+bars = shapes.BarsGrouped1D(datapoints, bar_width=7, bar_depth=7, center_layers=True)
 
-code = bars3d.render(backend=OpenScadBackend)
+code = bars.render(backend=OpenScadBackend)
 print(code)

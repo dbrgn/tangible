@@ -155,7 +155,7 @@ class QuadrilateralTower4D(Data4DMixin, SameLengthDatasetMixin, VerticalShape):
 # TODO: PolygonTowerND
 
 
-class Bars2D(BarsShape):
+class Bars1D(Data1DMixin, BarsShape):
     """Vertical bars aligned next to each other horizontally. Datapoints are
     mapped to bar height."""
     def _build_ast(self):
@@ -170,18 +170,18 @@ class Bars2D(BarsShape):
         return ast.Translate(x=-x_offset, y=0, z=0, item=model)
 
 
-class Bars3D(BarsShape):
+class BarsGrouped1D(Data1DMixin, BarsShape):
     """Vertical bars aligned next to each other horizontally. Datapoints are
     mapped to bar height. Multiple layers of bars."""
     def __init__(self, data, bar_width, bar_depth, center_layers=False):
-        super(Bars3D, self).__init__(data, bar_width, bar_depth)
+        super(BarsGrouped1D, self).__init__(data, bar_width, bar_depth)
         self.center_layers = center_layers
 
     def _build_ast(self):
         layers = []
         for i, month in enumerate(self.data):
-            bars2d = Bars2D(month, self.bar_width, self.bar_depth)
-            layer = bars2d._build_ast()
+            bars1d = Bars1D(month, self.bar_width, self.bar_depth)
+            layer = bars1d._build_ast()
             if not self.center_layers:
                 layer = layer.item
             x_offset = (i % 2) * 0.1  # Used to prevent "invalid 2-manifold" error

@@ -29,13 +29,13 @@ Shape Classes
 Bar Shapes
 ##########
 
-.. autoclass:: tangible.shapes.Bars2D
+.. autoclass:: tangible.shapes.Bars1D
     :members:
-.. image:: _static/img/shapes/bars_2d.png
+.. image:: _static/img/shapes/bars_1d.png
 
-.. autoclass:: tangible.shapes.Bars3D
+.. autoclass:: tangible.shapes.BarsGrouped1D
     :members:
-.. image:: _static/img/shapes/bars_3d.png
+.. image:: _static/img/shapes/bars_grouped_1d.png
 
 
 Vertical Shapes
