@@ -12,37 +12,32 @@ Tangible
 **WARNING: Project is still under initial development. Git history may be
 changed and force-pushed at any time.**
 
-Tangible is a Python library to convert data into tangible 3D models. It
-generates code for different backends like OpenSCAD or ImplicitSCAD. It is
-inspired by projects like OpenSCAD and d3.js.
+*Tangible* is a Python library to convert data into tangible 3D models. It
+generates code for different backends like *OpenSCAD* or *ImplicitSCAD*. It is
+inspired by projects like *OpenSCAD* and *d3.js*.
 
 .. image:: https://raw.github.com/dbrgn/tangible/master/example1.jpg
     :alt: Example 1
 
-The difference from Projects like SolidPython is that Tangible is a modular
+The difference from Projects like *SolidPython* is that *Tangible* is a modular
 system with an intermediate representation of objects that is capable of
-generating code for different backends, not just OpenSCAD. Additionally, its
+generating code for different backends, not just *OpenSCAD*. Additionally, its
 main focus is not general CAD, but printable 3D visualization of data.
 
-The workflow is as follows::
+The workflow to get a real object from data is as follows::
 
-    Tangible Python code
-    ⇓
-    Intermediate representation
-    ⇓
-    Programmatic CAD (OpenSCAD / ImplicitSCAD / ...)
-    ⇓
-    STL file
-    ⇓
-    Slicer
-    ⇓
-    G code
-    ⇓
-    Printed object
+    Python code => Intermediate representation (AST) => Programmatic CAD code
+    => STL file => Slicer => G code => 3D printer => Tangible object
 
-Work in progress, everything is still *very* unstable and might not work at all.
+Of these, *Tangible* does the first three steps. The fourth step is handled by
+a programmatic CAD tool like *OpenSCAD* or *ImplicitSCAD* and the last four
+steps are handled by the specific 3D printer software.
 
-Currently supported Python versions are 2.7.
+This library is my student research project thesis at `HSR <http://hsr.ch/>`_.
+Work is still in progress, everything is still *very* unstable.
+
+Currently supported Python versions are 2.7. Support for 2.6 and 3.3+ is
+planned.
 
 
 Documentation
