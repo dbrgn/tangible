@@ -16,6 +16,10 @@ class Shape(object):
 
     """
     def __init__(self, data):
+        """
+        :param data: The data.
+        :type data: sequence type
+        """
         self.data = data
         if not hasattr(data, '__iter__'):
             raise ValueError('Data must be a sequence type (e.g. a list)')
@@ -90,8 +94,6 @@ class SameLengthDatasetMixin(object):
 class VerticalShape(Shape):
     """Base class for vertical shapes like towers.
 
-    :param data: The data.
-    :type data: list
     :param layer_height: The height of each layer in the vertical shape.
     :type layer_height: int or float
 
@@ -104,8 +106,6 @@ class VerticalShape(Shape):
 class BarsShape(Shape):
     """Base class for vertical bars.
 
-    :param data: The data.
-    :type data: list
     :param bar_width: The width of each bar.
     :type bar_width: int or float
     :param bar_depth: The depth of each bar.
@@ -187,6 +187,12 @@ class BarsND(DataNDMixin, BarsShape):
     mapped to bar height. Multiple layers of bars (matching number of
     datasets)."""
     def __init__(self, data, bar_width, bar_depth, center_layers=False):
+        """
+        :param center_layers: Whether or not to center the layers
+            horizontally (default False).
+        :type center_layers: bool
+
+        """
         super(BarsND, self).__init__(data, bar_width, bar_depth)
         self.center_layers = center_layers
 
