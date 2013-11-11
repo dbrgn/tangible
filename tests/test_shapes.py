@@ -4,7 +4,8 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import pytest
 
 from tangible import shapes
-from tangible.shapes import Shape
+from tangible.shapes import mixins
+from tangible.shapes.base import Shape
 
 
 data1d_flat = [1, 2, 3, 4, 5]
@@ -35,13 +36,13 @@ def test_invalid_base_shape(data):
 
 
 @pytest.mark.parametrize(('data', 'Mixin'), [
-    ([], shapes.Data1DMixin),
-    (data1d_flat, shapes.Data2DMixin),
-    (data1d_nested, shapes.Data2DMixin),
-    (data4d, shapes.Data2DMixin),
-    (data1d_flat, shapes.Data4DMixin),
-    (data1d_nested, shapes.Data4DMixin),
-    (data2d, shapes.Data4DMixin),
+    ([], mixins.Data1DMixin),
+    (data1d_flat, mixins.Data2DMixin),
+    (data1d_nested, mixins.Data2DMixin),
+    (data4d, mixins.Data2DMixin),
+    (data1d_flat, mixins.Data4DMixin),
+    (data1d_nested, mixins.Data4DMixin),
+    (data2d, mixins.Data4DMixin),
 ])
 def test_dimension_mixin_fails(data, Mixin):
     class MyShape(Mixin, Shape):
@@ -51,10 +52,10 @@ def test_dimension_mixin_fails(data, Mixin):
 
 
 @pytest.mark.parametrize(('data', 'Mixin'), [
-    (data1d_flat, shapes.Data1DMixin),
-    (data1d_nested, shapes.Data1DMixin),
-    (data2d, shapes.Data2DMixin),
-    (data4d, shapes.Data4DMixin),
+    (data1d_flat, mixins.Data1DMixin),
+    (data1d_nested, mixins.Data1DMixin),
+    (data2d, mixins.Data2DMixin),
+    (data4d, mixins.Data4DMixin),
 ])
 def test_dimension_mixin_success(data, Mixin):
     class MyShape(Mixin, Shape):
@@ -74,7 +75,7 @@ def test_dimension_mixin_success(data, Mixin):
     [xrange(200), xrange(200), xrange(201)],
 ])
 def test_same_length_dataset_mixin_fails(data):
-    class MyShape(shapes.SameLengthDatasetMixin, Shape):
+    class MyShape(mixins.SameLengthDatasetMixin, Shape):
         pass
     with pytest.raises(ValueError):
         MyShape(data)
@@ -86,7 +87,7 @@ def test_same_length_dataset_mixin_fails(data):
     [xrange(200), xrange(200), xrange(200)],
 ])
 def test_same_length_dataset_mixin_success(data):
-    class MyShape(shapes.SameLengthDatasetMixin, Shape):
+    class MyShape(mixins.SameLengthDatasetMixin, Shape):
         pass
     try:
         MyShape(data)

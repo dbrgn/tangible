@@ -3,7 +3,8 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import csv
 
-from tangible import scales, shapes
+from tangible import scales
+from tangible.shapes.vertical import SquareTower1D
 from tangible.backends.openscad import OpenScadBackend
 
 
@@ -22,7 +23,7 @@ datapoints = map(scale, datapoints)
 
 
 # Create shape
-tower = shapes.SquareTower1D(datapoints, layer_height=10)
+tower = SquareTower1D(datapoints, layer_height=10)
 
 code = tower.render(backend=OpenScadBackend)
 print(code)

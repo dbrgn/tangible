@@ -9,24 +9,24 @@ Class Hierarchy
 ---------------
 
 .. inheritance-diagram::
-    tangible.shapes.Bars1D
-    tangible.shapes.BarsND
-    :parts: 1
+    tangible.shapes.bars.Bars1D
+    tangible.shapes.bars.BarsND
+    :parts: 2
 
 Base Class
 ----------
 
-.. autoclass:: tangible.shapes.BarsShape
+.. autoclass:: tangible.shapes.bars.BarsShape
     :members:
 
 Shape Classes
 -------------
 
-.. autoclass:: tangible.shapes.Bars1D
+.. autoclass:: tangible.shapes.bars.Bars1D
     :members:
 .. image:: ../_static/img/shapes/bars_1d.png
 
-.. autoclass:: tangible.shapes.BarsND
+.. autoclass:: tangible.shapes.bars.BarsND
     :members:
 .. image:: ../_static/img/shapes/barsnd.png
 

@@ -11,8 +11,10 @@ from tangible import shapes
 
 
 # Get all shape classes
-pred = lambda c: inspect.isclass(c) and c.__module__ == 'tangible.shapes'
-classes = inspect.getmembers(shapes, pred)
+pred = lambda c: inspect.isclass(c) and issubclass(c, shapes.base.Shape)
+vertical_classes = inspect.getmembers(shapes.vertical, pred)
+bars_classes = inspect.getmembers(shapes.bars, pred)
+classes = vertical_classes + bars_classes
 
 
 # Get names of shape classes

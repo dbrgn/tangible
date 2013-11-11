@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
-from tangible import shapes
+from tangible.shapes.base import Shape
 from tangible import ast
 from tangible.backends.openscad import OpenScadBackend
 
 
-class Quads(shapes.Shape):
+class Quads(Shape):
 
     def _build_ast(self):
         points = [

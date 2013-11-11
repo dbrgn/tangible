@@ -4,7 +4,8 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 import csv
 from itertools import chain
 
-from tangible import scales, shapes
+from tangible import scales
+from tangible.shapes.bars import BarsND
 from tangible.backends.openscad import OpenScadBackend
 
 
@@ -26,7 +27,7 @@ datapoints = map(lambda x: map(scale, x), datapoints)
 
 
 # Create shape
-bars = shapes.BarsND(datapoints, bar_width=7, bar_depth=7, center_layers=False)
+bars = BarsND(datapoints, bar_width=7, bar_depth=7, center_layers=False)
 
 code = bars.render(backend=OpenScadBackend)
 print(code)

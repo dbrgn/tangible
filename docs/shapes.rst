@@ -13,26 +13,26 @@ detailed list of shapes.
 .. toctree::
     :maxdepth: 1
 
-    shapes/vertical
     shapes/bars
+    shapes/vertical
 
 Base Classes
 ------------
 
 .. inheritance-diagram::
-    tangible.shapes.Shape
-    tangible.shapes.BarsShape
-    tangible.shapes.VerticalShape
-    :parts: 1
+    tangible.shapes.base.Shape
+    tangible.shapes.bars.BarsShape
+    tangible.shapes.vertical.VerticalShape
+    :parts: 2
 
-.. autoclass:: tangible.shapes.Shape
+.. autoclass:: tangible.shapes.base.Shape
     :members:
 
-.. autoclass:: tangible.shapes.BarsShape
+.. autoclass:: tangible.shapes.bars.BarsShape
     :members:
     :noindex:
 
-.. autoclass:: tangible.shapes.VerticalShape
+.. autoclass:: tangible.shapes.vertical.VerticalShape
     :members:
     :noindex:
 
@@ -41,5 +41,7 @@ Inheritance Diagram
 -------------------
 
 .. inheritance-diagram::
-    tangible.shapes
-    :parts: 1
+    tangible.shapes.base
+    tangible.shapes.bars
+    tangible.shapes.vertical
+    :parts: 2

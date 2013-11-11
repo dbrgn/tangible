@@ -3,7 +3,8 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 
 import csv
 
-from tangible import scales, shapes
+from tangible import scales
+from tangible.shapes.bars import Bars1D
 from tangible.backends.openscad import OpenScadBackend
 
 
@@ -22,7 +23,7 @@ datapoints = map(scale, datapoints)
 
 
 # Create shape
-bars1d = shapes.Bars1D(datapoints, bar_width=10, bar_depth=10)
+bars1d = Bars1D(datapoints, bar_width=10, bar_depth=10)
 
 code = bars1d.render(backend=OpenScadBackend)
 print(code)
