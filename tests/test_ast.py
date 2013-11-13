@@ -270,25 +270,21 @@ def test_bad_scale(x, y, z, item):
 def test_good_mirror():
     cylinder = ast.Cylinder(10, 2, 2)
     try:
-        mirror = ast.Mirror(x=1, y=1, z=0, item=cylinder)
+        mirror = ast.Mirror([1, 0.5, 2], item=cylinder)
     except ValueError:
         pytest.fail()
-    assert mirror.x == 1
-    assert mirror.y == 1
-    assert mirror.z == 0
+    assert mirror.vector == (1, 0.5, 2)
     assert mirror.item == cylinder
 
 
-@pytest.mark.parametrize(('x', 'y', 'z', 'item'), [
-    (1, 1, 0, None),  # no item
-    (1, 1, 0, 'item'),  # non-AST item
-    (0, 0, 0, ast.Sphere(1)),  # invalid vector
-    (2, 0, 0, ast.Sphere(1)),  # invalid vector
-    (0.5, 0, 0, ast.Sphere(1)),  # invalid vector
+@pytest.mark.parametrize(('vector', 'item'), [
+    ([1, 1, 0], None),  # no item
+    ([1, 1, 0], 'item'),  # non-AST item
+    ([0, 0, 0], ast.Sphere(1)),  # invalid vector
 ])
-def test_bad_mirror(x, y, z, item):
+def test_bad_mirror(vector, item):
     with pytest.raises(ValueError):
-        ast.Mirror(x, y, z, item)
+        ast.Mirror(vector, item)
 
 
 ### Boolean operations ###

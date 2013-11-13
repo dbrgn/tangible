@@ -302,18 +302,13 @@ class Scale(AST):
 
 class Mirror(AST):
     """A mirror transformation."""
-    def __init__(self, x, y, z, item):
+    def __init__(self, vector, item):
         """
-        Mirror the child element on a plane through the origin. The arguments
-        x, y and z describe the normal vector of a plane intersecting the
-        origin through which to mirror the object.
+        Mirror the child element on a plane through the origin.
 
-        :param x: X component of normal vector.
-        :type x: int or float
-        :param y: Y component of normal vector.
-        :type y: int or float
-        :param z: Z component of normal vector.
-        :type z: int or float
+        :param vector: Normal vector describing the plane intersecting the
+            origin through which to mirror the object.
+        :type vector: 3-tuple
         :param item: An AST object.
         :type item: tangible.ast.AST
         :raises: ValueError if validation fails
@@ -323,13 +318,11 @@ class Mirror(AST):
             raise ValueError('Item is required.')
         if not isinstance(item, AST):
             raise ValueError('Item must be an AST type.')
-        if not any((x, y, z)):
-            raise ValueError('Invalid vector (must contain at least one `1` value).')
-        if set([x, y, z]) != set([0, 1]):
-            raise ValueError('Invalid vector (must consist of `0` and `1` values).')
-        self.x = x
-        self.y = y
-        self.z = z
+        if not len(vector) == 3:
+            raise ValueError('Invalid vector (must be a 3-tuple).')
+        if not any(vector):
+            raise ValueError('Invalid vector (must contain at least one non-zero value).')
+        self.vector = tuple(vector)
         self.item = item
 
 
@@ -373,13 +366,15 @@ class Intersection(_BooleanOperation):
 ### Extrusions ###
 
 class LinearExtrusion(AST):
-    """A linear extrusion."""
-    def __init__(self, height, item):
+    """A linear extrusion along the z axis."""
+    def __init__(self, height, item, twist=0):
         """
         :param height: The height of the extrusion.
         :type height: int or float
         :param item: An AST object.
         :type item: tangible.ast.AST
+        :param twist: How many degrees to twist the object around the z axis.
+        :type item: int or float
 
         """
         if not item:
@@ -388,6 +383,7 @@ class LinearExtrusion(AST):
             raise ValueError('Item must be an AST type.')
         self.height = height
         self.item = item
+        self.twist = twist
 
 
 class RotateExtrusion(AST):
