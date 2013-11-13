@@ -49,6 +49,25 @@ class Circle(AST):
         self.radius = radius
 
 
+class CircleSector(Circle):
+    """A circle sector (pizza slice)."""
+    def __init__(self, radius, angle):
+        """
+        :param radius: The radius of the circle.
+        :type radius: int or float
+        :param angle: The central angle in degrees.
+        :type angle: int or float
+        :raises: ValueError if validation fails.
+
+        """
+        super(self, CircleSector).__init__(radius)
+        if angle < 0:
+            raise ValueError('Angle must be positive.')
+        if angle > 360:
+            raise ValueError('Angle must be between 0 and 360.')
+        self.angle = angle
+
+
 class Rectangle(AST):
     """A rectangle 2D shape."""
     def __init__(self, width, height):

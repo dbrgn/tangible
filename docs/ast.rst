@@ -12,6 +12,9 @@ can be nested. They're largely inspired by `OpenSCAD
 .. autoclass:: tangible.ast.Circle
     :members:
 
+.. autoclass:: tangible.ast.CircleSector
+    :members:
+
 .. autoclass:: tangible.ast.Rectangle
     :members:
 
