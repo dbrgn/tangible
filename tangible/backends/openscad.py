@@ -70,6 +70,7 @@ class Program(Block):
 
     def __init__(self):
         super(Program, self).__init__(None)
+        self._preamble = set()
 
     def __enter__(self):
         return self
@@ -77,8 +78,13 @@ class Program(Block):
     def __exit__(self, type, value, traceback):
         pass
 
+    def preamble(self, item):
+        self._preamble.add(item)
+
     def render(self):
-        lines = []
+        lines = list(self._preamble)
+        if self._preamble:
+            lines.append('')
         for child in self.children:
             lines.extend(child.render())
         return '\n'.join(lines)
@@ -100,12 +106,13 @@ class OpenScadBackend(object):
         prgm = Program()
         BLOCK = prgm.block
         STMT = prgm.statement
+        PRE = prgm.preamble
         SEP = prgm.emptyline
 
         def _generate(node):
             """Recursive code generating function."""
 
-            istype = lambda t: isinstance(node, t)
+            istype = lambda t: node.__class__ is t
 
             # Handle lists
 
@@ -127,6 +134,37 @@ class OpenScadBackend(object):
                 #    STMT(template, points, paths)
                 #else:
                 STMT('polygon({!r})', points[:-1])
+            elif istype(ast.CircleSector):
+                PRE('module circle_sector(r, a) {\n'
+                    '    a1 = a % 360;\n'
+                    '    a2 = 360 - (a % 360);\n'
+                    '    if (a1 <= 180) {\n'
+                    '        intersection() {\n'
+                    '            circle(r);\n'
+                    '            polygon([\n'
+                    '                [0,0],\n'
+                    '                [0,r],\n'
+                    '                [sin(a1/2)*r, r + cos(a1/2)*r],\n'
+                    '                [sin(a1)*r + sin(a1/2)*r, cos(a1)*r + cos(a1/2)*r],\n'
+                    '                [sin(a1)*r, cos(a1)*r],\n'
+                    '            ]);\n'
+                    '        }\n'
+                    '    } else {\n'
+                    '        difference() {\n'
+                    '            circle(r);\n'
+                    '            mirror([1,0]) {\n'
+                    '                polygon([\n'
+                    '                    [0,0],\n'
+                    '                    [0,r],\n'
+                    '                    [sin(a2/2)*r, r + cos(a2/2)*r],\n'
+                    '                    [sin(a2)*r + sin(a2/2)*r, cos(a2)*r + cos(a2/2)*r],\n'
+                    '                    [sin(a2)*r, cos(a2)*r],\n'
+                    '                ]);\n'
+                    '            };\n'
+                    '        }\n'
+                    '    }\n'
+                    '};')
+                STMT('circle_sector({}, {})', node.radius, node.angle)
 
             # 3D shapes
 

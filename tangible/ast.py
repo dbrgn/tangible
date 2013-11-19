@@ -60,9 +60,9 @@ class CircleSector(Circle):
         :raises: ValueError if validation fails.
 
         """
-        super(self, CircleSector).__init__(radius)
-        if angle < 0:
-            raise ValueError('Angle must be positive.')
+        super(CircleSector, self).__init__(radius)
+        if angle <= 0:
+            raise ValueError('Angle must be > 0.')
         if angle > 360:
             raise ValueError('Angle must be between 0 and 360.')
         self.angle = angle
@@ -374,7 +374,7 @@ class LinearExtrusion(AST):
         :param item: An AST object.
         :type item: tangible.ast.AST
         :param twist: How many degrees to twist the object around the z axis.
-        :type item: int or float
+        :type twist: int or float
 
         """
         if not item:

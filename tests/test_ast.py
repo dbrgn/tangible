@@ -34,6 +34,35 @@ def test_bad_circle(radius):
         ast.Circle(radius)
 
 
+def test_good_circle_sector():
+    try:
+        cs = ast.CircleSector(10, 90)
+    except ValueError:
+        pytest.fail()
+    assert cs.radius == 10
+    assert cs.angle == 90
+
+
+@pytest.mark.parametrize(('radius', 'angle'), [
+    [0, 90],  # zero radius
+    [-10, 90],  # negative radius
+    [10, 0],  # zero angle
+    [10, 360.5],  # angle too large
+])
+def test_bad_circle_sector(radius, angle):
+    with pytest.raises(ValueError):
+        ast.CircleSector(radius, angle)
+
+
+@pytest.mark.parametrize('radius', [
+    0,  # zero radius
+    -4.4,  # negative radius
+])
+def test_bad_circle(radius):
+    with pytest.raises(ValueError):
+        ast.Circle(radius)
+
+
 def test_good_rectangle():
     try:
         rectangle = ast.Rectangle(2, 4.5)

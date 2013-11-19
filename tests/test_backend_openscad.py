@@ -45,3 +45,44 @@ def test_polygon():
 
 
 # TODO test_polyhedron
+
+
+circle_sector_module = """module circle_sector(r, a) {
+    a1 = a % 360;
+    a2 = 360 - (a % 360);
+    if (a1 <= 180) {
+        intersection() {
+            circle(r);
+            polygon([
+                [0,0],
+                [0,r],
+                [sin(a1/2)*r, r + cos(a1/2)*r],
+                [sin(a1)*r + sin(a1/2)*r, cos(a1)*r + cos(a1/2)*r],
+                [sin(a1)*r, cos(a1)*r],
+            ]);
+        }
+    } else {
+        difference() {
+            circle(r);
+            mirror([1,0]) {
+                polygon([
+                    [0,0],
+                    [0,r],
+                    [sin(a2/2)*r, r + cos(a2/2)*r],
+                    [sin(a2)*r + sin(a2/2)*r, cos(a2)*r + cos(a2/2)*r],
+                    [sin(a2)*r, cos(a2)*r],
+                ]);
+            };
+        }
+    }
+};
+"""
+
+
+def test_circle_sector():
+    shape = ast.Difference([
+        ast.CircleSector(radius=10, angle=180),
+        ast.CircleSector(radius=8, angle=135),
+    ])
+    raw_code = '%s\ndifference()\n{\n    circle_sector(10, 180);\n    circle_sector(8, 135);\n};'
+    verify(shape, raw_code % circle_sector_module)
