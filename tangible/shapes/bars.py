@@ -31,7 +31,7 @@ class Bars1D(Data1DMixin, BarsShape):
     mapped to bar height."""
     def _build_ast(self):
         bars = []
-        for i, datapoint in enumerate(self.data):
+        for i, datapoint in enumerate(self.data[0]):
             bar = ast.Cube(width=self.bar_width, height=datapoint, depth=self.bar_depth)
             translated_bar = ast.Translate(x=i * self.bar_width, y=0, z=0, item=bar)
             bars.append(translated_bar)

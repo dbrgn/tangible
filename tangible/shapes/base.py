@@ -14,7 +14,13 @@ class Shape(object):
         :param data: The data.
         :type data: sequence type
         """
-        self.data = data
+        # Make sure data is in the "list of lists" form
+        if not data:
+            self.data = [[]]
+        elif isinstance(data[0], (list, tuple)):
+            self.data = data
+        else:
+            self.data = [data]
         if not hasattr(data, '__iter__'):
             raise ValueError('Data must be a sequence type (e.g. a list)')
 

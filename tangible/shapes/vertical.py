@@ -28,14 +28,14 @@ class VerticalShape(Shape):
 class CircleTower1D(Data1DMixin, VerticalShape):
     """Round vertical tower. Datapoints are mapped to radius."""
     def _build_ast(self):
-        layers = [ast.Circle(radius=d) for d in self.data]
+        layers = [ast.Circle(radius=d) for d in self.data[0]]
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
 class SquareTower1D(Data1DMixin, VerticalShape):
     """Vertical tower made of squares. Datapoints are mapped to square side length."""
     def _build_ast(self):
-        layers = [ast.Rectangle(width=d, height=d) for d in self.data]
+        layers = [ast.Rectangle(width=d, height=d) for d in self.data[0]]
         return utils.connect_2d_shapes(layers, self.layer_height, 'vertical')
 
 
