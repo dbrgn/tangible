@@ -14,6 +14,6 @@ class Circle(Shape):
         ])
 
 
-q = Circle([])
+q = Circle([1, 2, 3])
 code = q.render(backend=OpenScadBackend)
 print(code)
