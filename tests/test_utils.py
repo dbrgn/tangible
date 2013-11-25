@@ -154,3 +154,13 @@ def test_connect_invalid_arguments():
     shapes = [ast.Circle(5), ast.Circle(2)]
     with pytest.raises(AssertionError):
         utils.connect_2d_shapes(shapes, 10, 'diagonal')
+
+
+@pytest.mark.parametrize(('data', 'result'), [
+    ([], [[]]),
+    ([1, 2, 3], [[1, 2, 3]]),
+    ([[1, 2, 3]], [[1, 2, 3]]),
+    ([[1, 2, 3], [4, 5, 6]], [[1, 2, 3], [4, 5, 6]]),
+])
+def test_ensure_list_of_lists(data, result):
+    assert utils.ensure_list_of_lists(data) == result

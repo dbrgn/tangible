@@ -143,3 +143,24 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
     if orientation == 'horizontal':
         return Rotate(degrees=90, vector=[0, 1, 0], item=union)
     return union
+
+
+def ensure_list_of_lists(data):
+    """Ensure the data object is a list of lists.
+
+    If it doesn't contain lists or tuples, wrap it in a list.
+
+    :param data: The dataset.
+    :type data: list or tuple
+    :returns: Processed data.
+    :rtype: list of lists
+    :raises: ValueError if data is not a sequence type.
+
+    """
+    if not hasattr(data, '__iter__'):
+        raise ValueError('Data must be a sequence type (e.g. a list)')
+    if not data:
+        return [[]]
+    if isinstance(data[0], (list, tuple)):
+        return data
+    return [data]
