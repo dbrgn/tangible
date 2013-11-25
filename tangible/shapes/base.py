@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
+from .. import utils
+
 
 class Shape(object):
     """The base class for all shapes.
@@ -14,15 +16,7 @@ class Shape(object):
         :param data: The data.
         :type data: sequence type
         """
-        # Make sure data is in the "list of lists" form
-        if not data:
-            self.data = [[]]
-        elif isinstance(data[0], (list, tuple)):
-            self.data = data
-        else:
-            self.data = [data]
-        if not hasattr(data, '__iter__'):
-            raise ValueError('Data must be a sequence type (e.g. a list)')
+        self.data = utils.ensure_list_of_lists(data)
 
     def _build_ast(self):
         raise NotImplementedError('_build_ast method not implemented.')

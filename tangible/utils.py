@@ -161,6 +161,6 @@ def ensure_list_of_lists(data):
         raise ValueError('Data must be a sequence type (e.g. a list)')
     if not data:
         return [[]]
-    if isinstance(data[0], (list, tuple)):
+    if hasattr(data[0], '__iter__'):
         return data
     return [data]

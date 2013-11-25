@@ -36,7 +36,6 @@ def test_invalid_base_shape(data):
 
 
 @pytest.mark.parametrize(('data', 'Mixin'), [
-    ([], mixins.Data1DMixin),
     (data1d_flat, mixins.Data2DMixin),
     (data1d_nested, mixins.Data2DMixin),
     (data4d, mixins.Data2DMixin),
@@ -67,9 +66,6 @@ def test_dimension_mixin_success(data, Mixin):
 
 
 @pytest.mark.parametrize('data', [
-    [],
-    [1],
-    [[1]],
     [[1], [2, 3]],
     [[1, 2], [3, 4, 5], [6, 7]],
     [xrange(200), xrange(200), xrange(201)],
