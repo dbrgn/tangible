@@ -2,6 +2,7 @@
 """Circular shapes."""
 from __future__ import print_function, division, absolute_import, unicode_literals
 
+from math import sin, cos, radians
 from itertools import izip
 
 from .. import ast, scales
@@ -13,7 +14,7 @@ from .mixins import Data1DMixin, DataNDMixin, SameLengthDatasetMixin
 
 class PieShape(SameLengthDatasetMixin, Shape):
     """Base class for pie shapes."""
-    def __init__(self, data, height=2, outer_radius=10, inner_radius=0):
+    def __init__(self, data, height=2, outer_radius=10, inner_radius=0, explode=0):
         """
         """
         super(PieShape, self).__init__(data)
@@ -22,6 +23,7 @@ class PieShape(SameLengthDatasetMixin, Shape):
         self.radii = [outer_radius] * self.count
         self.angles = [360 / self.count] * self.count
         self.heights = [height] * self.count
+        self.explode = explode
 
     def _build_ast(self):
         slices = []
@@ -29,12 +31,17 @@ class PieShape(SameLengthDatasetMixin, Shape):
         for i, (radius, angle, height) in enumerate(izip(self.radii, self.angles, self.heights)):
             # Create slice
             s = ast.CircleSector(radius, angle)
+            # Explode
+            if self.explode:
+                x_offset = self.explode * sin(radians(angle / 2))
+                y_offset = self.explode * cos(radians(angle / 2))
+                s = ast.Translate(x_offset, y_offset, 0, s)
             # Rotate
+            s = ast.Rotate(-total_angle, (0, 0, 1), s)
             total_angle += angle
-            rotated = ast.Rotate(total_angle, (0, 0, 1), s)
             # Extrude
-            extruded = ast.LinearExtrusion(height, rotated)
-            slices.append(extruded)
+            s = ast.LinearExtrusion(height, s)
+            slices.append(s)
         union = ast.Union(slices)
         if self.inner_radius:
             r = self.inner_radius
@@ -77,19 +84,20 @@ class HeightMixin(object):
 ### SHAPE CLASSES ###
 
 class RadiusPie1D(RadiusMixin, PieShape):
-    def __init__(self, data, height, inner_radius=0):
+    def __init__(self, data, height, inner_radius=0, explode=0):
         super(RadiusPie1D, self).__init__(data, height=height,
-                inner_radius=inner_radius)
+                inner_radius=inner_radius, explode=explode)
 
 
 class AnglePie1D(AngleMixin, PieShape):
-    def __init__(self, data, height, outer_radius=1, inner_radius=0):
+    def __init__(self, data, height, outer_radius=1, inner_radius=0, explode=0):
         super(AnglePie1D, self).__init__(data, height=height,
-                outer_radius=outer_radius, inner_radius=inner_radius)
+                outer_radius=outer_radius, inner_radius=inner_radius,
+                explode=explode)
 
 
 class AngleRadiusPie2D(AngleMixin, RadiusMixin, PieShape):
-    def __init__(self, data, height, angle_index=0, radius_index=1, inner_radius=0):
+    def __init__(self, data, height, angle_index=0, radius_index=1, inner_radius=0, explode=0):
         super(AngleRadiusPie2D, self).__init__(data, height=height,
-                inner_radius=inner_radius, angle_index=angle_index,
-                radius_index=radius_index)
+                inner_radius=inner_radius, explode=explode,
+                angle_index=angle_index, radius_index=radius_index)
