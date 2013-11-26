@@ -15,6 +15,7 @@ detailed list of shapes.
 
     shapes/bars
     shapes/vertical
+    shapes/pie
 
 Base Classes
 ------------
@@ -36,6 +37,10 @@ Base Classes
     :members:
     :noindex:
 
+.. autoclass:: tangible.shapes.pie.PieShape
+    :members:
+    :noindex:
+
 
 Inheritance Diagram
 -------------------
@@ -44,4 +49,5 @@ Inheritance Diagram
     tangible.shapes.base
     tangible.shapes.bars
     tangible.shapes.vertical
+    tangible.shapes.pie
     :parts: 2

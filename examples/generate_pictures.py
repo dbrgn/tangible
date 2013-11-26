@@ -14,7 +14,8 @@ from tangible import shapes
 pred = lambda c: inspect.isclass(c) and issubclass(c, shapes.base.Shape)
 vertical_classes = inspect.getmembers(shapes.vertical, pred)
 bars_classes = inspect.getmembers(shapes.bars, pred)
-classes = vertical_classes + bars_classes
+pie_classes = inspect.getmembers(shapes.pie, pred)
+classes = vertical_classes + bars_classes + pie_classes
 
 
 # Get names of shape classes
@@ -23,8 +24,10 @@ shape_names = [c[0] for c in classes]
 
 # Transform shape names
 def convert(name):
-    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    return re.sub('([0-9]+)([A-Za-z]+)', r'_\1\2', s1).lower()
+    s = name
+    for i in xrange(4):
+        s = re.sub('([^_])([A-Z][a-z]+)', r'\1_\2', s)
+    return re.sub('([0-9]+)([A-Za-z]+)', r'_\1\2', s).lower()
 file_names = map(convert, shape_names)
 
 
