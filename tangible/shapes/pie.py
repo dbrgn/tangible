@@ -7,7 +7,7 @@ from itertools import izip
 
 from .. import ast, scales
 from .base import Shape
-from .mixins import Data1DMixin, DataNDMixin, SameLengthDatasetMixin
+from .mixins import SameLengthDatasetMixin
 
 
 ### BASE CLASS ###
@@ -83,17 +83,23 @@ class HeightMixin(object):
 
 ### SHAPE CLASSES ###
 
+class AnglePie1D(AngleMixin, PieShape):
+    def __init__(self, data, height, outer_radius=10, inner_radius=0, explode=0):
+        super(AnglePie1D, self).__init__(data, height=height,
+                outer_radius=outer_radius, inner_radius=inner_radius,
+                explode=explode)
+
+
 class RadiusPie1D(RadiusMixin, PieShape):
     def __init__(self, data, height, inner_radius=0, explode=0):
         super(RadiusPie1D, self).__init__(data, height=height,
                 inner_radius=inner_radius, explode=explode)
 
 
-class AnglePie1D(AngleMixin, PieShape):
-    def __init__(self, data, height, outer_radius=1, inner_radius=0, explode=0):
-        super(AnglePie1D, self).__init__(data, height=height,
-                outer_radius=outer_radius, inner_radius=inner_radius,
-                explode=explode)
+class HeightPie1D(HeightMixin, PieShape):
+    def __init__(self, data, outer_radius=10, inner_radius=0, explode=0):
+        super(HeightPie1D, self).__init__(data,
+                outer_radius=outer_radius, inner_radius=inner_radius, explode=explode)
 
 
 class AngleRadiusPie2D(AngleMixin, RadiusMixin, PieShape):
@@ -101,3 +107,26 @@ class AngleRadiusPie2D(AngleMixin, RadiusMixin, PieShape):
         super(AngleRadiusPie2D, self).__init__(data, height=height,
                 inner_radius=inner_radius, explode=explode,
                 angle_index=angle_index, radius_index=radius_index)
+
+
+class AngleHeightPie2D(AngleMixin, HeightMixin, PieShape):
+    def __init__(self, data, angle_index=0, height_index=1, outer_radius=10, inner_radius=0,
+            explode=0):
+        super(AngleHeightPie2D, self).__init__(data,
+                outer_radius=outer_radius, inner_radius=inner_radius, explode=explode,
+                angle_index=angle_index, height_index=height_index)
+
+
+class RadiusHeightPie2D(RadiusMixin, HeightMixin, PieShape):
+    def __init__(self, data, radius_index=0, height_index=1, inner_radius=0, explode=0):
+        super(RadiusHeightPie2D, self).__init__(data,
+                inner_radius=inner_radius, explode=explode,
+                radius_index=radius_index, height_index=height_index)
+
+
+class AngleRadiusHeightPie3D(AngleMixin, RadiusMixin, HeightMixin, PieShape):
+    def __init__(self, data, angle_index=0, radius_index=1, height_index=2, inner_radius=0,
+            explode=0):
+        super(AngleRadiusHeightPie3D, self).__init__(data,
+                inner_radius=inner_radius, explode=explode,
+                angle_index=angle_index, radius_index=radius_index, height_index=height_index)
