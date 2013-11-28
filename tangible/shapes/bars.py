@@ -12,6 +12,8 @@ from .mixins import Data1DMixin, DataNDMixin
 class BarsShape(Shape):
     """Base class for vertical bars.
 
+    :param data: The data.
+    :type data: sequence type
     :param bar_width: The width of each bar.
     :type bar_width: int or float
     :param bar_depth: The depth of each bar.

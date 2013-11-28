@@ -14,6 +14,8 @@ from .mixins import Data1DMixin, Data2DMixin, Data4DMixin, SameLengthDatasetMixi
 class VerticalShape(Shape):
     """Base class for vertical shapes like towers.
 
+    :param data: The data.
+    :type data: sequence type
     :param layer_height: The height of each layer in the vertical shape.
     :type layer_height: int or float
 

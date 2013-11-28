@@ -13,10 +13,21 @@ from .mixins import SameLengthDatasetMixin
 ### BASE CLASS ###
 
 class PieShape(SameLengthDatasetMixin, Shape):
-    """Base class for pie shapes."""
+    """Base class for pie shapes.
+
+    :param data: The data.
+    :type data: sequence type
+    :param height: The height of the model (default 2).
+    :type height: int or float
+    :param outer_radius: The outer radius of the model (default 10).
+    :type outer_radius: int or float
+    :param inner_radius: The inner radius of the model (default 0).
+    :type inner_radius: int or float
+    :param explode: By how much to explode the sectors (default 0).
+    :type explode: int or float
+
+    """
     def __init__(self, data, height=2, outer_radius=10, inner_radius=0, explode=0):
-        """
-        """
         super(PieShape, self).__init__(data)
         self.inner_radius = inner_radius
         self.count = len(self.data[0])
@@ -84,49 +95,160 @@ class HeightMixin(object):
 ### SHAPE CLASSES ###
 
 class AnglePie1D(AngleMixin, PieShape):
-    def __init__(self, data, height, outer_radius=10, inner_radius=0, explode=0):
+    """A classical pie chart. The datapoints are mapped to the angles of the slices.
+
+    Note that you won't be able to differentiate the slices without setting a
+    positive ``explode`` value.
+
+    """
+    def __init__(self, data, height=2, outer_radius=10, inner_radius=0, explode=0):
+        """
+        :param data: The data.
+        :type data: sequence type
+        :param height: The height of the model (default 2).
+        :type height: int or float
+        :param outer_radius: The outer radius of the model (default 10).
+        :type outer_radius: int or float
+        :param inner_radius: The inner radius of the model (default 0).
+        :type inner_radius: int or float
+        :param explode: By how much to explode the sectors (default 0).
+        :type explode: int or float
+
+        """
         super(AnglePie1D, self).__init__(data, height=height,
                 outer_radius=outer_radius, inner_radius=inner_radius,
                 explode=explode)
 
 
 class RadiusPie1D(RadiusMixin, PieShape):
-    def __init__(self, data, height, inner_radius=0, explode=0):
+    """A flat pie chart where the datapoints are mapped to the radius of the
+    slices."""
+    def __init__(self, data, height=2, inner_radius=0, explode=0):
+        """
+        :param data: The data.
+        :type data: sequence type
+        :param height: The height of the model (default 2).
+        :type height: int or float
+        :param inner_radius: The inner radius of the model (default 0).
+        :type inner_radius: int or float
+        :param explode: By how much to explode the sectors (default 0).
+        :type explode: int or float
+
+        """
         super(RadiusPie1D, self).__init__(data, height=height,
                 inner_radius=inner_radius, explode=explode)
 
 
 class HeightPie1D(HeightMixin, PieShape):
+    """A pie chart where the datapoints are mapped to the height of the
+    slices."""
     def __init__(self, data, outer_radius=10, inner_radius=0, explode=0):
+        """
+        :param data: The data.
+        :type data: sequence type
+        :param outer_radius: The outer radius of the model (default 10).
+        :type outer_radius: int or float
+        :param inner_radius: The inner radius of the model (default 0).
+        :type inner_radius: int or float
+        :param explode: By how much to explode the sectors (default 0).
+        :type explode: int or float
+
+        """
         super(HeightPie1D, self).__init__(data,
                 outer_radius=outer_radius, inner_radius=inner_radius, explode=explode)
 
 
 class AngleRadiusPie2D(AngleMixin, RadiusMixin, PieShape):
+    """A flat pie chart where the two datasets correspond to the angle and the
+    radius of the slices."""
     def __init__(self, data, height, angle_index=0, radius_index=1, inner_radius=0, explode=0):
+        """
+        :param data: The data.
+        :type data: sequence type
+        :param height: The height of the model (default 2).
+        :type height: int or float
+        :param angle_index: The index of the angle dataset (default 0).
+        :type angle_index: int
+        :param radius_index: The index of the radius dataset (default 1).
+        :type radius_index: int
+        :param inner_radius: The inner radius of the model (default 0).
+        :type inner_radius: int or float
+        :param explode: By how much to explode the sectors (default 0).
+        :type explode: int or float
+
+        """
         super(AngleRadiusPie2D, self).__init__(data, height=height,
                 inner_radius=inner_radius, explode=explode,
                 angle_index=angle_index, radius_index=radius_index)
 
 
 class AngleHeightPie2D(AngleMixin, HeightMixin, PieShape):
+    """A pie chart where the two datasets correspond to the angle and the
+    height of the slices."""
     def __init__(self, data, angle_index=0, height_index=1, outer_radius=10, inner_radius=0,
-            explode=0):
+                 explode=0):
+        """
+        :param data: The data.
+        :type data: sequence type
+        :param angle_index: The index of the angle dataset (default 0).
+        :type angle_index: int
+        :param height_index: The index of the height dataset (default 1).
+        :type height_index: int
+        :param outer_radius: The outer radius of the model (default 10).
+        :type outer_radius: int or float
+        :param inner_radius: The inner radius of the model (default 0).
+        :type inner_radius: int or float
+        :param explode: By how much to explode the sectors (default 0).
+        :type explode: int or float
+
+        """
         super(AngleHeightPie2D, self).__init__(data,
                 outer_radius=outer_radius, inner_radius=inner_radius, explode=explode,
                 angle_index=angle_index, height_index=height_index)
 
 
 class RadiusHeightPie2D(RadiusMixin, HeightMixin, PieShape):
+    """A pie chart where the two datasets correspond to the radius and the
+    height of the slices."""
     def __init__(self, data, radius_index=0, height_index=1, inner_radius=0, explode=0):
+        """
+        :param data: The data.
+        :type data: sequence type
+        :param radius_index: The index of the radius dataset (default 0).
+        :type radius_index: int
+        :param height_index: The index of the height dataset (default 1).
+        :type height_index: int
+        :param inner_radius: The inner radius of the model (default 0).
+        :type inner_radius: int or float
+        :param explode: By how much to explode the sectors (default 0).
+        :type explode: int or float
+
+        """
         super(RadiusHeightPie2D, self).__init__(data,
                 inner_radius=inner_radius, explode=explode,
                 radius_index=radius_index, height_index=height_index)
 
 
 class AngleRadiusHeightPie3D(AngleMixin, RadiusMixin, HeightMixin, PieShape):
+    """A pie chart where the three datasets correspond to the angle, the radius
+    and the height of the slices."""
     def __init__(self, data, angle_index=0, radius_index=1, height_index=2, inner_radius=0,
-            explode=0):
+                 explode=0):
+        """
+        :param data: The data.
+        :type data: sequence type
+        :param angle_index: The index of the angle dataset (default 0).
+        :type angle_index: int
+        :param radius_index: The index of the radius dataset (default 1).
+        :type radius_index: int
+        :param height_index: The index of the height dataset (default 2).
+        :type height_index: int
+        :param inner_radius: The inner radius of the model (default 0).
+        :type inner_radius: int or float
+        :param explode: By how much to explode the sectors (default 0).
+        :type explode: int or float
+
+        """
         super(AngleRadiusHeightPie3D, self).__init__(data,
                 inner_radius=inner_radius, explode=explode,
                 angle_index=angle_index, radius_index=radius_index, height_index=height_index)
