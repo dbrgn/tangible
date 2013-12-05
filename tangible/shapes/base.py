@@ -19,7 +19,7 @@ class Shape(object):
         """
         self.data = utils.ensure_list_of_lists(data)
         if len(self.data[0]) == 0:
-            raise ValueError("Data may not be empty.")
+            raise ValueError('Data may not be empty.')
 
     def _build_ast(self):
         raise NotImplementedError('_build_ast method not implemented.')

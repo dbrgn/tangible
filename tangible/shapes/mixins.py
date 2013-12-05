@@ -9,8 +9,9 @@ class Data1DMixin(object):
     """Validate 1 dimensional data."""
     def __init__(self, data, *args, **kwargs):
         data = utils.ensure_list_of_lists(data)
-        if not len(data):
-            raise ValueError('Data must not be empty.')
+        if len(data) != 1:
+            msg = 'Data must be 1-dimensional, but it contains {} datasets.'
+            raise ValueError(msg.format(len(data)))
         super(Data1DMixin, self).__init__(data, *args, **kwargs)
 
 

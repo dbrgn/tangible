@@ -24,6 +24,7 @@ Base Classes
     tangible.shapes.base.Shape
     tangible.shapes.bars.BarsShape
     tangible.shapes.vertical.VerticalShape
+    tangible.shapes.pie.PieShape
     :parts: 2
 
 .. autoclass:: tangible.shapes.base.Shape
