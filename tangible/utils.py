@@ -29,6 +29,38 @@ def pairwise(iterable):
     return izip(a, b)
 
 
+def reduceby(iterable, keyfunc, reducefunc, init):
+    """Combination of ``itertools.groupby()`` and  ``reduce()``.
+
+    This generator iterates over the iterable. The values are reduced using
+    ``reducefunc`` and ``init`` as long as ``keyfunc(item)`` returns the same
+    value.
+
+    :param iterable: An iterable to reduce. The iterable should be presorted.
+    :param keyfunc: A key function. It should return the same value for all
+        items belonging to the same group.
+    :param reducefunc: The reduce function.
+    :param init: The initial value for the reduction.
+    :returns: A generator returning the reduced groups.
+    :rtype: generator
+
+    """
+    first = True
+    oldkey = None
+    accum_value = init
+    for i in iter(iterable):
+        key = keyfunc(i)
+        if first:
+            oldkey = key
+            first = False
+        elif key != oldkey:
+            yield accum_value
+            accum_value = init
+            oldkey = key
+        accum_value = reducefunc(accum_value, i)
+    yield accum_value
+
+
 def quads_to_triangles(quads):
     """Convert a list of quads to a list of triangles.
 

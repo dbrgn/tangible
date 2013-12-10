@@ -15,6 +15,31 @@ def test_pairwise_list(values, pairs):
     assert list(utils.pairwise(values)) == pairs
 
 
+@pytest.mark.parametrize(('data', 'groups'), [
+    ([1, 2, 3, 10, 11, 20, 28, 29], [6, 21, 77]),
+    ([1], [1]),
+    ([-1, -2, -3, 4, 5, 6], [-6, 15]),
+])
+def test_reduceby_sum(data, groups):
+    keyfunc = lambda x: x // 10
+    reducefunc = lambda x, y: x + y
+    generator = utils.reduceby(data, keyfunc, reducefunc, 0)
+    assert list(generator) == groups
+
+
+@pytest.mark.parametrize(('data', 'groups'), [
+    ([0, 2, 4, 6, 8, 10, 1, 3, 5, 7, 9], [0, 945]),
+    ([1], [1]),
+    ([1, 1, 1, 42], [1, 42]),
+    ([1, 2, 3, 4], [1, 2, 3, 4]),
+])
+def test_reduceby_product(data, groups):
+    keyfunc = lambda x: x % 2 == 0
+    reducefunc = lambda x, y: x * y
+    generator = utils.reduceby(data, keyfunc, reducefunc, 1)
+    assert list(generator) == groups
+
+
 @pytest.mark.parametrize(('quads', 'triangles'), [
     ([[0, 1, 2, 3]], [[0, 1, 2], [0, 2, 3]]),
     ([[1, 3, 5, 7], [6, 5, 4, 3]], [[1, 3, 5], [1, 5, 7], [6, 5, 4], [6, 4, 3]]),
