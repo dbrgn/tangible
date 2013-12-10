@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
-from tangible.shapes.base import Shape
+from tangible.shapes.base import BaseShape
 from tangible import ast
 from tangible.backends.openscad import OpenScadBackend
 
 
-class Quads(Shape):
+class Quads(BaseShape):
 
     def _build_ast(self):
         points = [
@@ -21,6 +21,6 @@ class Quads(Shape):
         return ast.Polyhedron(points=points, quads=quads)
 
 
-q = Quads([1, 2, 3])
+q = Quads()
 code = q.render(backend=OpenScadBackend)
 print(code)

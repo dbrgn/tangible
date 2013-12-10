@@ -21,11 +21,15 @@ Base Classes
 ------------
 
 .. inheritance-diagram::
+    tangible.shapes.base.BaseShape
     tangible.shapes.base.Shape
     tangible.shapes.bars.BarsShape
     tangible.shapes.vertical.VerticalShape
     tangible.shapes.pie.PieShape
     :parts: 2
+
+.. autoclass:: tangible.shapes.base.BaseShape
+    :members:
 
 .. autoclass:: tangible.shapes.base.Shape
     :members:
