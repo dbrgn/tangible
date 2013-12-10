@@ -5,6 +5,10 @@ from __future__ import print_function, division, absolute_import, unicode_litera
 from .. import utils
 
 
+# TODO validators could be implemented as parametrized decorators instead of
+# using classes directly.
+
+
 class Data1DMixin(object):
     """Validate 1 dimensional data."""
     def __init__(self, data, *args, **kwargs):
@@ -23,6 +27,16 @@ class Data2DMixin(object):
             msg = 'Data must be 2-dimensional, but it contains {} datasets.'
             raise ValueError(msg.format(len(data)))
         super(Data2DMixin, self).__init__(data, *args, **kwargs)
+
+
+class Data3DMixin(object):
+    """Validate 3 dimensional data."""
+    def __init__(self, data, *args, **kwargs):
+        data = utils.ensure_list_of_lists(data)
+        if len(data) != 3:
+            msg = 'Data must be 3-dimensional, but it contains {} datasets.'
+            raise ValueError(msg.format(len(data)))
+        super(Data3DMixin, self).__init__(data, *args, **kwargs)
 
 
 class Data4DMixin(object):

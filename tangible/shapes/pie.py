@@ -7,7 +7,7 @@ from itertools import izip
 
 from .. import ast, scales
 from .base import Shape
-from .mixins import SameLengthDatasetMixin
+from .mixins import SameLengthDatasetMixin, Data1DMixin, Data2DMixin, Data3DMixin
 
 
 ### BASE CLASS ###
@@ -94,7 +94,7 @@ class HeightMixin(object):
 
 ### SHAPE CLASSES ###
 
-class AnglePie1D(AngleMixin, PieShape):
+class AnglePie1D(Data1DMixin, AngleMixin, PieShape):
     """A classical pie chart. The datapoints are mapped to the angles of the slices.
 
     Note that you won't be able to differentiate the slices without setting a
@@ -120,7 +120,7 @@ class AnglePie1D(AngleMixin, PieShape):
                 explode=explode)
 
 
-class RadiusPie1D(RadiusMixin, PieShape):
+class RadiusPie1D(Data1DMixin, RadiusMixin, PieShape):
     """A flat pie chart where the datapoints are mapped to the radius of the
     slices."""
     def __init__(self, data, height=2, inner_radius=0, explode=0):
@@ -139,7 +139,7 @@ class RadiusPie1D(RadiusMixin, PieShape):
                 inner_radius=inner_radius, explode=explode)
 
 
-class HeightPie1D(HeightMixin, PieShape):
+class HeightPie1D(Data1DMixin, HeightMixin, PieShape):
     """A pie chart where the datapoints are mapped to the height of the
     slices."""
     def __init__(self, data, outer_radius=10, inner_radius=0, explode=0):
@@ -158,7 +158,7 @@ class HeightPie1D(HeightMixin, PieShape):
                 outer_radius=outer_radius, inner_radius=inner_radius, explode=explode)
 
 
-class AngleRadiusPie2D(AngleMixin, RadiusMixin, PieShape):
+class AngleRadiusPie2D(Data2DMixin, AngleMixin, RadiusMixin, PieShape):
     """A flat pie chart where the two datasets correspond to the angle and the
     radius of the slices."""
     def __init__(self, data, height, angle_index=0, radius_index=1, inner_radius=0, explode=0):
@@ -182,7 +182,7 @@ class AngleRadiusPie2D(AngleMixin, RadiusMixin, PieShape):
                 angle_index=angle_index, radius_index=radius_index)
 
 
-class AngleHeightPie2D(AngleMixin, HeightMixin, PieShape):
+class AngleHeightPie2D(Data2DMixin, AngleMixin, HeightMixin, PieShape):
     """A pie chart where the two datasets correspond to the angle and the
     height of the slices."""
     def __init__(self, data, angle_index=0, height_index=1, outer_radius=10, inner_radius=0,
@@ -207,7 +207,7 @@ class AngleHeightPie2D(AngleMixin, HeightMixin, PieShape):
                 angle_index=angle_index, height_index=height_index)
 
 
-class RadiusHeightPie2D(RadiusMixin, HeightMixin, PieShape):
+class RadiusHeightPie2D(Data2DMixin, RadiusMixin, HeightMixin, PieShape):
     """A pie chart where the two datasets correspond to the radius and the
     height of the slices."""
     def __init__(self, data, radius_index=0, height_index=1, inner_radius=0, explode=0):
@@ -229,7 +229,7 @@ class RadiusHeightPie2D(RadiusMixin, HeightMixin, PieShape):
                 radius_index=radius_index, height_index=height_index)
 
 
-class AngleRadiusHeightPie3D(AngleMixin, RadiusMixin, HeightMixin, PieShape):
+class AngleRadiusHeightPie3D(Data3DMixin, AngleMixin, RadiusMixin, HeightMixin, PieShape):
     """A pie chart where the three datasets correspond to the angle, the radius
     and the height of the slices."""
     def __init__(self, data, angle_index=0, radius_index=1, height_index=2, inner_radius=0,
