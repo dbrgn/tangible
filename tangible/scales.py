@@ -25,6 +25,9 @@ def linear(domain, codomain, clamp=False):
     :type domain: A 2-tuple.
     :param codomain: The scale's output range / codomain.
     :type codomain: A 2-tuple.
+    :param clamp: Whether or not to clamp the output values to the codomain.
+    Default ``False``.
+    :type clamp: bool
     :returns: A function that takes a single number as argument and returns
         another number.
 

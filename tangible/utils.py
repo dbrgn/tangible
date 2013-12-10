@@ -10,7 +10,7 @@ def pairwise(iterable):
     """Iterate over an iterable in pairs.
 
     This is an implementation of a moving window over an iterable with 2 items.
-    Each group in the resulting list contains 2 items.  This means that the
+    Each group in the resulting list contains 2 items. This means that the
     original iterable needs to contain at least 2 items, otherwise this
     function will return an empty list.
 
@@ -35,6 +35,22 @@ def reduceby(iterable, keyfunc, reducefunc, init):
     This generator iterates over the iterable. The values are reduced using
     ``reducefunc`` and ``init`` as long as ``keyfunc(item)`` returns the same
     value.
+
+    A possible use case would be to aggregate website visits and to group them
+    by month. The corresponding SQL statement would be::
+
+        SELECT SUM(visit_count) FROM visits GROUP BY month;
+
+    Example::
+
+        >>> keyfunc = lambda x: x % 2 == 0
+        >>> reducefunc = lambda x, y: x + y
+        >>> values = [1, 3, 5, 6, 8, 11]
+        >>> groups = utils.reduceby(values, keyfunc, reducefunc, 0)
+        >>> groups
+        <generator object reduceby at 0xedc5a0>
+        >>> list(groups)
+        [9, 14, 11]
 
     :param iterable: An iterable to reduce. The iterable should be presorted.
     :param keyfunc: A key function. It should return the same value for all
