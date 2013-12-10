@@ -39,6 +39,6 @@ class Shape(BaseShape):
         :type data: sequence type
         :raises: ValueError if data is empty.
         """
-        self.data = utils.ensure_list_of_lists(data)
+        self.data = utils._ensure_list_of_lists(data)
         if len(self.data[0]) == 0:
             raise ValueError('Data may not be empty.')

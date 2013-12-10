@@ -45,7 +45,7 @@ def test_reduceby_product(data, groups):
     ([[1, 3, 5, 7], [6, 5, 4, 3]], [[1, 3, 5], [1, 5, 7], [6, 5, 4], [6, 4, 3]]),
 ])
 def test_quads_to_triangles(quads, triangles):
-    assert utils.quads_to_triangles(quads) == triangles
+    assert utils._quads_to_triangles(quads) == triangles
 
 
 class TestCircleConnect(object):
@@ -188,4 +188,4 @@ def test_connect_invalid_arguments():
     ([[1, 2, 3], [4, 5, 6]], [[1, 2, 3], [4, 5, 6]]),
 ])
 def test_ensure_list_of_lists(data, result):
-    assert utils.ensure_list_of_lists(data) == result
+    assert utils._ensure_list_of_lists(data) == result

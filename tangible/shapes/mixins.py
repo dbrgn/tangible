@@ -12,7 +12,7 @@ from .. import utils
 class Data1DMixin(object):
     """Validate 1 dimensional data."""
     def __init__(self, data, *args, **kwargs):
-        data = utils.ensure_list_of_lists(data)
+        data = utils._ensure_list_of_lists(data)
         if len(data) != 1:
             msg = 'Data must be 1-dimensional, but it contains {} datasets.'
             raise ValueError(msg.format(len(data)))
@@ -22,7 +22,7 @@ class Data1DMixin(object):
 class Data2DMixin(object):
     """Validate 2 dimensional data."""
     def __init__(self, data, *args, **kwargs):
-        data = utils.ensure_list_of_lists(data)
+        data = utils._ensure_list_of_lists(data)
         if len(data) != 2:
             msg = 'Data must be 2-dimensional, but it contains {} datasets.'
             raise ValueError(msg.format(len(data)))
@@ -32,7 +32,7 @@ class Data2DMixin(object):
 class Data3DMixin(object):
     """Validate 3 dimensional data."""
     def __init__(self, data, *args, **kwargs):
-        data = utils.ensure_list_of_lists(data)
+        data = utils._ensure_list_of_lists(data)
         if len(data) != 3:
             msg = 'Data must be 3-dimensional, but it contains {} datasets.'
             raise ValueError(msg.format(len(data)))
@@ -42,7 +42,7 @@ class Data3DMixin(object):
 class Data4DMixin(object):
     """Validate 4 dimensional data."""
     def __init__(self, data, *args, **kwargs):
-        data = utils.ensure_list_of_lists(data)
+        data = utils._ensure_list_of_lists(data)
         if len(data) != 4:
             msg = 'Data must be 4-dimensional, but it contains {} datasets.'
             raise ValueError(msg.format(len(data)))
@@ -52,7 +52,7 @@ class Data4DMixin(object):
 class DataNDMixin(object):
     """Validate n dimensional data."""
     def __init__(self, data, *args, **kwargs):
-        data = utils.ensure_list_of_lists(data)
+        data = utils._ensure_list_of_lists(data)
         if not len(data):
             raise ValueError('Data must not be empty.')
         if not all(map(lambda x: hasattr(x, '__iter__'), data)):
@@ -64,7 +64,7 @@ class SameLengthDatasetMixin(object):
     """Make sure that each dataset in multi dimensional data has the same
     length."""
     def __init__(self, data, *args, **kwargs):
-        data = utils.ensure_list_of_lists(data)
+        data = utils._ensure_list_of_lists(data)
         lengths = map(len, data)
         if len(set(lengths)) != 1:
             raise ValueError('All datasets in data must be of the same length.')

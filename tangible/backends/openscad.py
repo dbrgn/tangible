@@ -178,7 +178,7 @@ class OpenScadBackend(object):
                 points = map(list, node.points)
                 triangles = map(list, node.triangles) if node.triangles else []
                 if node.quads:
-                    triangles.extend(utils.quads_to_triangles(node.quads))
+                    triangles.extend(utils._quads_to_triangles(node.quads))
                 template = 'polyhedron(\npoints={!r},\n    triangles={!r}\n)'
                 STMT(template, points, triangles)
 

@@ -77,22 +77,6 @@ def reduceby(iterable, keyfunc, reducefunc, init):
     yield accum_value
 
 
-def quads_to_triangles(quads):
-    """Convert a list of quads to a list of triangles.
-
-    :param quads: The list of quads.
-    :type quads: list of 4-tuples
-    :returns: List of triangles.
-    :rtype: list of 3-tuples
-
-    """
-    triangles = []
-    for quad in quads:
-        triangles.append([quad[0], quad[1], quad[2]])
-        triangles.append([quad[0], quad[2], quad[3]])
-    return triangles
-
-
 def connect_2d_shapes(shapes, layer_distance, orientation):
     """Convert a list of 2D shapes to a 3D shape.
 
@@ -193,7 +177,23 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
     return union
 
 
-def ensure_list_of_lists(data):
+def _quads_to_triangles(quads):
+    """Convert a list of quads to a list of triangles.
+
+    :param quads: The list of quads.
+    :type quads: list of 4-tuples
+    :returns: List of triangles.
+    :rtype: list of 3-tuples
+
+    """
+    triangles = []
+    for quad in quads:
+        triangles.append([quad[0], quad[1], quad[2]])
+        triangles.append([quad[0], quad[2], quad[3]])
+    return triangles
+
+
+def _ensure_list_of_lists(data):
     """Ensure the data object is a list of lists.
 
     If it doesn't contain lists or tuples, wrap it in a list.
