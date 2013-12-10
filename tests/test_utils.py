@@ -41,8 +41,8 @@ def test_reduceby_product(data, groups):
 
 
 @pytest.mark.parametrize(('quads', 'triangles'), [
-    ([[0, 1, 2, 3]], [[0, 1, 2], [0, 2, 3]]),
-    ([[1, 3, 5, 7], [6, 5, 4, 3]], [[1, 3, 5], [1, 5, 7], [6, 5, 4], [6, 4, 3]]),
+    ([(0, 1, 2, 3)], [(0, 1, 2), (0, 2, 3)]),
+    ([(1, 3, 5, 7), (6, 5, 4, 3)], [(1, 3, 5), (1, 5, 7), (6, 5, 4), (6, 4, 3)]),
 ])
 def test_quads_to_triangles(quads, triangles):
     assert utils._quads_to_triangles(quads) == triangles

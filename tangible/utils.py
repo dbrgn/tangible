@@ -188,8 +188,8 @@ def _quads_to_triangles(quads):
     """
     triangles = []
     for quad in quads:
-        triangles.append([quad[0], quad[1], quad[2]])
-        triangles.append([quad[0], quad[2], quad[3]])
+        triangles.append((quad[0], quad[1], quad[2]))
+        triangles.append((quad[0], quad[2], quad[3]))
     return triangles
 
 
