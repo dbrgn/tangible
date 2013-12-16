@@ -94,7 +94,10 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
     """
     assert orientation in ['horizontal', 'vertical'], \
             '`orientation` argument must be either "horizontal" or "vertical".'
+
     layers = []
+    istype = lambda inst, cls: inst.__class__ is cls
+
     for i, (first, second) in enumerate(pairwise(shapes)):
 
         layer = None
@@ -105,13 +108,13 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
 
         # Circle
         # Implemented by joining cylinders.
-        if isinstance(first, Circle):
+        if istype(first, Circle):
             r1, r2 = first.radius, second.radius
             layer = Cylinder(height=layer_distance, radius1=r1, radius2=r2)
 
         # Rectangle
         # Implemented by joining polyhedra.
-        elif isinstance(first, Rectangle):
+        elif istype(first, Rectangle):
             w1, h1 = first.width, first.height
             w2, h2 = second.width, second.height
 
@@ -140,7 +143,7 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
 
         # Polygon
         # Implemented by joining polyhedra.
-        elif isinstance(first, Polygon):
+        elif istype(first, Polygon):
             if len(first.points) != len(second.points):
                 raise ValueError('All polygons need to have the same number of points.')
 
@@ -169,6 +172,9 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
                     triangles.append([vertice_count + j, vertice_count + j - 1, vertice_count])
 
             layer = Polyhedron(points=points, quads=quads, triangles=triangles)
+
+        else:
+            raise ValueError('Unsupported shape: {!r}'.format(first))
 
         layers.append(Translate(0, 0, i * layer_distance, item=layer))
     union = Union(items=layers)
