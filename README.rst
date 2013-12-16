@@ -68,7 +68,15 @@ Docstrings convention: `Sphinx style <http://stackoverflow.com/q/4547849/284318>
 Testing
 -------
 
-Install ``requirements-dev.txt``, then run ``py.test`` in the main directory.
+Prepare::
+
+    pip install -r requirements-dev.txt --use-mirrors
+    pip install -e .
+
+Run tests::
+
+    py.test
+
 Violations of the PEP8 coding guidelines above will be counted as test fails.
 
 
