@@ -33,7 +33,7 @@ file_names = map(convert, shape_names)
 
 # Find and execute files
 for name in file_names:
-    print('Processing {}.py: '.format(name), end='')
+    print('Processing {0}.py: '.format(name), end='')
     cmds = [
         'python {0}.py > {0}.scad',
         'openscad -o ../docs/_static/img/shapes/{0}.png --imgsize=400,260 {0}.scad',
