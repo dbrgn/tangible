@@ -22,8 +22,8 @@ class BaseShape(object):
         :returns: The resulting source code as a string.
 
         """
-        self.ast = self._build_ast()
-        return backend(self.ast).generate()
+        ast = self._build_ast()
+        return backend(ast).generate()
 
 
 class Shape(BaseShape):
