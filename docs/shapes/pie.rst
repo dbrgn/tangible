@@ -1,3 +1,5 @@
+.. _pie_shapes:
+
 Pie Shapes
 ==========
 

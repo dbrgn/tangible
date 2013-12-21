@@ -39,6 +39,16 @@ The workflow is as follows::
 Table of Contents
 =================
 
+**Using the library**
+
+.. toctree::
+    :maxdepth: 2
+
+    usage
+    examples
+
+**Reference**
+
 .. toctree::
     :maxdepth: 2
 
@@ -47,7 +57,6 @@ Table of Contents
     utils
     ast
     backends
-    examples
 
 
 Indices and tables

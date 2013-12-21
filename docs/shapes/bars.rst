@@ -1,3 +1,5 @@
+.. _bar_shapes:
+
 Bar Shapes
 ==========
 

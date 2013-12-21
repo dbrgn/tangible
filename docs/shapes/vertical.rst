@@ -1,3 +1,5 @@
+.. _vertical_shapes:
+
 Vertical Shapes
 ===============
 
