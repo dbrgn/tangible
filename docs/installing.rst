@@ -1,7 +1,7 @@
-.. _installation:
+.. _installing:
 
-Installation
-============
+Installing
+==========
 
 You can install Tangible directly via PyPI::
 
