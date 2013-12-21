@@ -25,6 +25,8 @@ The workflow is as follows::
 Source code: `https://github.com/dbrgn/tangible
 <https://github.com/dbrgn/tangible>`_
 
+Contributions are very welcome! Please open an issue or a pull request `on
+Github <https://github.com/dbrgn/tangible>`_.
 
 
 Table of Contents
