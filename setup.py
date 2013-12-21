@@ -14,7 +14,7 @@ setup(name='tangible',
       url='https://github.com/dbrgn/tangible',
       license='LGPLv3',
       keywords='tangible visualization 3d printing',
-      packages=['tangible'],
+      packages=['tangible', 'tangible.backends', 'tangible.shapes'],
       platforms=['any'],
       classifiers=[
           'Development Status :: 4 - Beta',
