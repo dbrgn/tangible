@@ -9,6 +9,14 @@ Tangible
     :target: https://coveralls.io/r/dbrgn/tangible
     :alt: Coverage Status
 
+.. image:: https://pypip.in/d/tangible/badge.png
+    :target: https://preview-pypi.python.org/project/tangible/
+    :alt: Downloads
+
+.. image:: https://pypip.in/v/tangible/badge.png
+    :target: https://preview-pypi.python.org/project/tangible/
+    :alt: Latest Version
+
 *Tangible* is a Python library to convert data into tangible 3D models. It
 generates code for different backends like *OpenSCAD* or *ImplicitSCAD*. It is
 inspired by projects like *OpenSCAD* and *d3.js*.
@@ -40,6 +48,18 @@ This library was my student research project thesis at `HSR <http://hsr.ch/>`_.
 You can find the thesis paper here: http://dbrgn.ch/sa-thesis.pdf
 
 
+Installation
+------------
+
+You can install Tangible directly via PyPI::
+
+    pip install tangible
+
+If you want the current development version::
+
+    pip install -e git+https://github.com/dbrgn/tangible#egg=tangible-dev
+
+ 
 Documentation
 -------------
 
