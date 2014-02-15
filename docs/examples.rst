@@ -140,9 +140,9 @@ between opposing corners of a rhombus tower.
 Grouped Data
 ------------
 
-Some one dimensional datasets does not work well when visualized directly. An
-example would be website visitor statistics during a full year, a single bar
-graph would be much too wide. But by grouping the data from the :ref:`CSV
+Some one dimensional datasets don't work well when visualized directly. An
+example would be daily website visitor statistics during a full year, a single
+bar graph would be much too wide. But by grouping the data from the :ref:`CSV
 example <example_csv>` into months, a :class:`BarsND
 <tangible.shapes.bars.BarsND>` graph can be constructed:
 
