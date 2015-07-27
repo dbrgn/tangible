@@ -1,21 +1,25 @@
 Tangible
 ========
 
-.. image:: https://secure.travis-ci.org/dbrgn/tangible.png?branch=master
+.. image:: https://img.shields.io/travis/dbrgn/tangible/master.svg
     :alt: Travis-CI build status
     :target: http://travis-ci.org/dbrgn/tangible
 
-.. image:: https://coveralls.io/repos/dbrgn/tangible/badge.png?branch=master
+.. image:: https://img.shields.io/coveralls/dbrgn/tangible/master.svg
     :target: https://coveralls.io/r/dbrgn/tangible
     :alt: Coverage Status
 
-.. image:: https://pypip.in/d/tangible/badge.png
-    :target: https://preview-pypi.python.org/project/tangible/
-    :alt: Downloads
+.. image:: https://img.shields.io/pypi/dm/tangible.svg
+    :target: https://pypi.python.org/pypi/tangible/
+    :alt: Downloads per Month
 
-.. image:: https://pypip.in/v/tangible/badge.png
-    :target: https://preview-pypi.python.org/project/tangible/
+.. image:: https://img.shields.io/pypi/v/tangible.svg
+    :target: https://pypi.python.org/pypi/tangible/
     :alt: Latest Version
+
+.. image:: https://img.shields.io/pypi/wheel/tangible.svg
+    :target: https://pypi.python.org/pypi/tangible/
+    :alt: Wheel Availability
 
 *Tangible* is a Python library to convert data into tangible 3D models. It
 generates code for different backends like *OpenSCAD* or *ImplicitSCAD*. It is
