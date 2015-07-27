@@ -96,7 +96,6 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
             '`orientation` argument must be either "horizontal" or "vertical".'
 
     layers = []
-    istype = lambda inst, cls: inst.__class__ is cls
 
     for i, (first, second) in enumerate(pairwise(shapes)):
 
@@ -108,13 +107,13 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
 
         # Circle
         # Implemented by joining cylinders.
-        if istype(first, Circle):
+        if isinstance(first, Circle):
             r1, r2 = first.radius, second.radius
             layer = Cylinder(height=layer_distance, radius1=r1, radius2=r2)
 
         # Rectangle
         # Implemented by joining polyhedra.
-        elif istype(first, Rectangle):
+        elif isinstance(first, Rectangle):
             w1, h1 = first.width, first.height
             w2, h2 = second.width, second.height
 
@@ -143,7 +142,7 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
 
         # Polygon
         # Implemented by joining polyhedra.
-        elif istype(first, Polygon):
+        elif isinstance(first, Polygon):
             if len(first.points) != len(second.points):
                 raise ValueError('All polygons need to have the same number of points.')
 

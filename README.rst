@@ -81,7 +81,7 @@ Coding Guidelines
 
 `PEP8 <http://www.python.org/dev/peps/pep-0008/>`__ via `flake8
 <https://pypi.python.org/pypi/flake8>`_ with max-line-width set to 99 and
-E126-E128 ignored.
+E126-E128,E266,E731 ignored.
 
 All Python files must start with an UTF8 encoding declaration and some
 `future-imports <http://stackful-dev.com/quick-tips-on-making-your-code-python-3-ready.html>`_:

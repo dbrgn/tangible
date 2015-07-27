@@ -128,11 +128,6 @@ class OpenScadBackend(object):
                 STMT('square([{0}, {1}])', node.width, node.height)
             elif istype(ast.Polygon):
                 points = map(list, node.points)
-                #paths = map(list, node.paths)
-                #if paths:
-                #    template = 'polygon(\npoints={!r},\n    paths={!r}\n)'
-                #    STMT(template, points, paths)
-                #else:
                 STMT('polygon({0!r})', points[:-1])
             elif istype(ast.CircleSector):
                 PRE('module circle_sector(r, a) {\n'

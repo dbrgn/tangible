@@ -64,12 +64,17 @@ class BarsND(DataNDMixin, BarsShape):
             layer = bars1d._build_ast()
             if not self.center_layers:
                 layer = layer.item
-            x_offset = (i % 2) * 0.1  # Hack: Used to prevent "invalid 2-manifold" error
-                                      # TODO: should probably be in backend
+
+            # Hack: Used to prevent "invalid 2-manifold" error
+            # TODO: should probably be in backend
+            x_offset = (i % 2) * 0.1
+
             translated = ast.Translate(x=x_offset, y=i * self.bar_depth, z=0, item=layer)
             layers.append(translated)
         model = ast.Union(items=layers)
+
         # Center model
-        #x_offset = TODO
+        # x_offset = TODO
         y_offset = len(self.data) / 2 * self.bar_depth
+
         return ast.Translate(x=0, y=-y_offset, z=0, item=model)
