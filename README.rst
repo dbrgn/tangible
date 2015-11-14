@@ -91,7 +91,7 @@ All Python files must start with an UTF8 encoding declaration and some
     # -*- coding: utf-8 -*-
     from __future__ import print_function, division, absolute_import, unicode_literals
 
-Docstrings convention: `Sphinx style <http://stackoverflow.com/q/4547849/284318>`__.
+Docstrings convention: `Sphinx style <http://stackoverflow.com/a/5339352/284318>`__.
 
 
 Testing
