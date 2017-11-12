@@ -70,7 +70,7 @@ class AngleMixin(object):
         super(AngleMixin, self).__init__(*args, **kwargs)
         data = self.data[index]
         scale = scales.linear([0, sum(data)], [0, 360])
-        for i in xrange(self.count):
+        for i in range(self.count):
             self.angles[i] = scale(data[i])
 
 

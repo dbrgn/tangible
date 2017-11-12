@@ -29,10 +29,10 @@ def test_invalid_base_shape(data):
 
 
 @pytest.mark.parametrize(('data', 'angle'), [
-    (xrange(1), 360),
-    (xrange(2), 180),
-    (xrange(10), 36),
-    (xrange(16), 22.5),
+    (range(1), 360),
+    (range(2), 180),
+    (range(10), 36),
+    (range(16), 22.5),
 ])
 def test_base_pie(data, angle):
     my_pie = shapes.pie.PieShape(data)

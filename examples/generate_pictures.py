@@ -25,7 +25,7 @@ shape_names = [c[0] for c in classes]
 # Transform shape names
 def convert(name):
     s = name
-    for i in xrange(4):
+    for i in range(4):
         s = re.sub('([^_])([A-Z][a-z]+)', r'\1_\2', s)
     return re.sub('([0-9]+)([A-Za-z]+)', r'_\1\2', s).lower()
 file_names = map(convert, shape_names)

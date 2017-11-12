@@ -46,7 +46,7 @@ def test_dimension_mixin_success(data, Mixin):
 @pytest.mark.parametrize('data', [
     [[1], [2, 3]],
     [[1, 2], [3, 4, 5], [6, 7]],
-    [xrange(200), xrange(200), xrange(201)],
+    [range(200), range(200), range(201)],
 ])
 def test_same_length_dataset_mixin_fails(data):
     class MyShape(mixins.SameLengthDatasetMixin, Shape):
@@ -58,7 +58,7 @@ def test_same_length_dataset_mixin_fails(data):
 @pytest.mark.parametrize('data', [
     [[1], [2]],
     [[1, 2], [2, 3]],
-    [xrange(200), xrange(200), xrange(200)],
+    [range(200), range(200), range(200)],
 ])
 def test_same_length_dataset_mixin_success(data):
     class MyShape(mixins.SameLengthDatasetMixin, Shape):
