@@ -73,7 +73,7 @@ Documentation can be found on ReadTheDocs: `http://tangible.readthedocs.org/
 <http://tangible.readthedocs.org/>`_
 
 If you want to know more about the architecture of the library, please refer to
-my `thesis PDF <http://dbrgn.ch/sa-thesis.pdf>`_.
+my `thesis PDF <https://files.dbrgn.ch/sa-thesis.pdf>`_.
 
 
 Coding Guidelines
