@@ -49,7 +49,7 @@ Currently supported Python versions are 2.6 and 2.7. Support for 3.3+ is
 planned.
 
 This library was my student research project thesis at `HSR <http://hsr.ch/>`_.
-You can find the thesis paper here: http://dbrgn.ch/sa-thesis.pdf
+You can find the thesis paper here: https://files.dbrgn.ch/sa-thesis.pdf
 
 Contributions are very welcome! Please open an issue or a pull request.
 
