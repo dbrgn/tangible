@@ -161,7 +161,7 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
 
             triangles = []
             quads = []
-            for j in xrange(vertice_count):
+            for j in range(vertice_count):
                 # Sides
                 quads.append([
                     (j + 1) % vertice_count,  # lower right
