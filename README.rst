@@ -9,10 +9,6 @@ Tangible
     :target: https://coveralls.io/r/dbrgn/tangible
     :alt: Coverage Status
 
-.. image:: https://img.shields.io/pypi/dm/tangible.svg
-    :target: https://pypi.python.org/pypi/tangible/
-    :alt: Downloads per Month
-
 .. image:: https://img.shields.io/pypi/v/tangible.svg
     :target: https://pypi.python.org/pypi/tangible/
     :alt: Latest Version
