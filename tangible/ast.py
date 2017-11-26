@@ -30,7 +30,7 @@ class AST(object):
 
     def __repr__(self):
         name = self.__class__.__name__
-        return '<AST/{0}: {1}>'.format(name, id(self))
+        return '<AST/{}: {}>'.format(name, id(self))
 
 
 ### 2D shapes ###
@@ -190,15 +190,15 @@ class Polyhedron(AST):
         """
         if len(points) < 4:
             raise ValueError('There must be at least 4 points in a polyhedron.')
-        if set(map(len, points)) != set([3]):
+        if set(map(len, points)) != {3}:
             raise ValueError('Invalid point tuples (must be 3-tuples).')
         if not (triangles or quads):
             raise ValueError('Either triangles or quads must be specified.')
         if triangles:
-            if set(map(len, triangles)) != set([3]):
+            if set(map(len, triangles)) != {3}:
                 raise ValueError('Invalid triangle tuples (must be 3-tuples).')
         if quads:
-            if set(map(len, quads)) != set([4]):
+            if set(map(len, quads)) != {4}:
                 raise ValueError('Invalid quad tuples (must be 4-tuples).')
         max_value = max(chain(*(triangles + quads)))
         min_value = min(chain(*(triangles + quads)))
@@ -262,7 +262,7 @@ class Rotate(AST):
             raise ValueError('Invalid vector (must be a 3-tuple).')
         if not any(vector):
             raise ValueError('Invalid vector (must contain at least one `1` value).')
-        if set(vector) != set([0, 1]):
+        if set(vector) != {0, 1}:
             raise ValueError('Invalid vector (must consist of `0` and `1` values).')
         self.degrees = degrees
         self.vector = vector

@@ -123,9 +123,9 @@ class OpenScadBackend(object):
             # 2D shapes
 
             elif istype(ast.Circle):
-                STMT('circle({0})', node.radius)
+                STMT('circle({})', node.radius)
             elif istype(ast.Rectangle):
-                STMT('square([{0}, {1}])', node.width, node.height)
+                STMT('square([{}, {}])', node.width, node.height)
             elif istype(ast.Polygon):
                 points = map(list, node.points)
                 STMT('polygon({0!r})', points[:-1])
@@ -159,16 +159,16 @@ class OpenScadBackend(object):
                     '        }\n'
                     '    }\n'
                     '};')
-                STMT('circle_sector({0}, {1})', node.radius, node.angle)
+                STMT('circle_sector({}, {})', node.radius, node.angle)
 
             # 3D shapes
 
             elif istype(ast.Cube):
-                STMT('cube([{0}, {1}, {2}])', node.width, node.depth, node.height)
+                STMT('cube([{}, {}, {}])', node.width, node.depth, node.height)
             elif istype(ast.Sphere):
-                STMT('sphere({0})', node.radius)
+                STMT('sphere({})', node.radius)
             elif istype(ast.Cylinder):
-                STMT('cylinder({0}, {1}, {2})', node.height, node.radius1, node.radius2)
+                STMT('cylinder({}, {}, {})', node.height, node.radius1, node.radius2)
             elif istype(ast.Polyhedron):
                 points = map(list, node.points)
                 triangles = map(list, node.triangles) if node.triangles else []
@@ -180,13 +180,13 @@ class OpenScadBackend(object):
             # Transformations
 
             elif istype(ast.Translate):
-                with BLOCK('translate([{0}, {1}, {2}])', node.x, node.y, node.z):
+                with BLOCK('translate([{}, {}, {}])', node.x, node.y, node.z):
                     _generate(node.item)
             elif istype(ast.Rotate):
                 with BLOCK('rotate({0}, {1!r})', node.degrees, list(node.vector)):
                     _generate(node.item)
             elif istype(ast.Scale):
-                with BLOCK('scale([{0}, {1}, {2}])', node.x, node.y, node.z):
+                with BLOCK('scale([{}, {}, {}])', node.x, node.y, node.z):
                     _generate(node.item)
             elif istype(ast.Mirror):
                 with BLOCK('mirror({0!r})', list(node.vector)):
@@ -207,7 +207,7 @@ class OpenScadBackend(object):
             # Extrusions
 
             elif istype(ast.LinearExtrusion):
-                with BLOCK('linear_extrude({0}, twist={1})', node.height, node.twist):
+                with BLOCK('linear_extrude({}, twist={})', node.height, node.twist):
                     _generate(node.item)
             elif istype(ast.RotateExtrusion):
                 with BLOCK('rotate_extrude()'):

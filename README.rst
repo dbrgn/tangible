@@ -45,7 +45,7 @@ Of these, *Tangible* does the first three steps. The fourth step is handled by
 a programmatic CAD tool like *OpenSCAD* or *ImplicitSCAD* and the last four
 steps are handled by the specific 3D printer software.
 
-Currently supported Python versions are 2.6 and 2.7. Support for 3.3+ is
+Currently supported Python version is 2.7. Support for 3.4+ is
 planned.
 
 This library was my student research project thesis at `HSR <http://hsr.ch/>`_.
