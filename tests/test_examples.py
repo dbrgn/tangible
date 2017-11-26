@@ -16,11 +16,10 @@ def chdir(path):
     os.chdir(old_dir)
 
 
-def test_returncode():
-    pyfiles = (f for f in os.listdir('examples') if f.endswith('.py'))
-    for f in pyfiles:
-        try:
-            with chdir('examples'):
-                subprocess.check_call('python ' + f, shell=True)
-        except subprocess.CalledProcessError:
-            pytest.fail('Example {} returned with status code != 0.'.format(f))
+@pytest.mark.parametrize('pyfile', [f for f in os.listdir('examples') if f.endswith('.py')])
+def test_returncode(pyfile):
+    try:
+        with chdir('examples'):
+            subprocess.check_call('python ' + pyfile, shell=True)
+    except subprocess.CalledProcessError:
+        pytest.fail('Example {} returned with status code != 0.'.format(pyfile))
