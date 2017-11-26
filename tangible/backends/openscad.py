@@ -11,7 +11,7 @@ class Statement(object):
     def __init__(self, text, *args, **kwargs):
         self.suffix = kwargs.pop('suffix', ';')
         if kwargs:
-            raise TypeError('invalid keyword arguments %r' % (kwargs.keys(),))
+            raise TypeError('invalid keyword arguments %r' % list(kwargs.keys()))
         if args:
             text = text.format(*args)
         self.text = text
@@ -29,7 +29,7 @@ class Block(object):
         self.prefix = kwargs.pop('prefix', '{')
         self.suffix = kwargs.pop('suffix', '};')
         if kwargs:
-            raise TypeError('invalid keyword arguments %r' % (kwargs.keys(),))
+            raise TypeError('invalid keyword arguments %r' % list(kwargs.keys()))
         self.title = Statement(text, *args, suffix='')
         self.children = []
         self.stack = []
@@ -41,7 +41,7 @@ class Block(object):
             return self.stack[-1]
 
     def emptyline(self, count=1):
-        for i in xrange(count):
+        for i in range(count):
             self._get_head().children.append(EmptyStatement)
 
     def statement(self, *args, **kwargs):
