@@ -12,7 +12,7 @@ install:
     - pip install -r requirements-dev.txt
     - pip install -e .
 script:
-    - py.test
+    - pytest
 after_script:
     - pip install --quiet coveralls
     - coveralls

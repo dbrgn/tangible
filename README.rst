@@ -100,7 +100,7 @@ Prepare::
 
 Run tests::
 
-    py.test
+    pytest
 
 Violations of the PEP8 coding guidelines above will be counted as test fails.
 
