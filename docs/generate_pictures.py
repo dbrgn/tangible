@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
@@ -35,9 +35,9 @@ file_names = map(convert, shape_names)
 for name in file_names:
     print('Processing {}.py: '.format(name), end='')
     cmds = [
-        'python {0}.py > {0}.scad',
-        'openscad -o ../docs/_static/img/shapes/{0}.png --imgsize=400,260 {0}.scad',
-        'rm {0}.scad',
+        'python ../examples/{0}.py > ../examples/{0}.scad',
+        'openscad -o _static/img/shapes/{0}.png --imgsize=400,260 ../examples/{0}.scad',
+        'rm ../examples/{0}.scad',
     ]
     try:
         with open(os.devnull, 'w') as devnull:
