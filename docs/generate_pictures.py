@@ -6,6 +6,7 @@ import os
 import re
 import inspect
 import subprocess
+import sys
 
 from tangible import shapes
 
@@ -31,6 +32,10 @@ def convert(name):
 file_names = map(convert, shape_names)
 
 
+# Use -v parameter to output the cmds
+verbose = '-v' in sys.argv
+
+
 # Find and execute files
 for name in file_names:
     print('Processing {}.py: '.format(name), end='')
@@ -39,6 +44,10 @@ for name in file_names:
         'openscad -o _static/img/shapes/{0}.png --imgsize=400,260 ../examples/{0}.scad',
         'rm ../examples/{0}.scad',
     ]
+    if verbose:
+        print()
+        for cmd in cmds:
+            print('  %s' % cmd.format(name))
     try:
         with open(os.devnull, 'w') as devnull:
             for cmd in cmds:
