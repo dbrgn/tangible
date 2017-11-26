@@ -19,7 +19,7 @@ with open('analytics-sep-13.csv', 'r') as datafile:
 
 # Normalize data
 scale = scales.linear([min(datapoints), max(datapoints)], [10, 50])
-datapoints = map(scale, datapoints)
+datapoints = [scale(p) for p in datapoints]
 
 
 # Create shape

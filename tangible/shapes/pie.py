@@ -3,7 +3,11 @@
 from __future__ import print_function, division, absolute_import, unicode_literals
 
 from math import sin, cos, radians
-from itertools import izip
+
+try:
+    from itertools import izip as zip
+except:  # This import fails in python3 because zip is now a builtin
+    pass
 
 from .. import ast, scales
 from .base import Shape
@@ -39,7 +43,7 @@ class PieShape(SameLengthDatasetMixin, Shape):
     def _build_ast(self):
         slices = []
         total_angle = 0
-        for i, (radius, angle, height) in enumerate(izip(self.radii, self.angles, self.heights)):
+        for i, (radius, angle, height) in enumerate(zip(self.radii, self.angles, self.heights)):
             # Create slice
             s = ast.CircleSector(radius, angle)
             # Explode

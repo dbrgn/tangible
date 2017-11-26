@@ -127,7 +127,7 @@ class OpenScadBackend(object):
             elif istype(ast.Rectangle):
                 STMT('square([{}, {}])', node.width, node.height)
             elif istype(ast.Polygon):
-                points = map(list, node.points)
+                points = [list(p) for p in node.points]
                 STMT('polygon({0!r})', points[:-1])
             elif istype(ast.CircleSector):
                 PRE('module circle_sector(r, a) {\n'
@@ -170,8 +170,8 @@ class OpenScadBackend(object):
             elif istype(ast.Cylinder):
                 STMT('cylinder({}, {}, {})', node.height, node.radius1, node.radius2)
             elif istype(ast.Polyhedron):
-                points = map(list, node.points)
-                triangles = map(list, node.triangles) if node.triangles else []
+                points = [list(p) for p in node.points]
+                triangles = [list(t) for t in node.triangles] if node.triangles else []
                 if node.quads:
                     triangles.extend(utils._quads_to_triangles(node.quads))
                 template = 'polyhedron(\npoints={0!r},\n    triangles={1!r}\n)'

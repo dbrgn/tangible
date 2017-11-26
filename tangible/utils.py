@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import print_function, division, absolute_import, unicode_literals
 
-from itertools import tee, izip
+from itertools import tee
+
+try:
+    from itertools import izip as zip
+except:  # This import fails in python3 because zip is now a builtin
+    pass
 
 from .ast import Circle, Rectangle, Polygon, Cylinder, Polyhedron, Union, Rotate, Translate
 
@@ -26,7 +31,7 @@ def pairwise(iterable):
     """
     a, b = tee(iterable)
     next(b, None)
-    return izip(a, b)
+    return zip(a, b)
 
 
 def reduceby(iterable, keyfunc, reducefunc, init):
@@ -156,7 +161,7 @@ def connect_2d_shapes(shapes, layer_distance, orientation):
 
             triangles = []
             quads = []
-            for j in xrange(vertice_count):
+            for j in range(vertice_count):
                 # Sides
                 quads.append([
                     (j + 1) % vertice_count,  # lower right
