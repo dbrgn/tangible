@@ -157,7 +157,7 @@ example <example_csv>` into months, a :class:`BarsND
     from tangible.backends.openscad import OpenScadBackend
 
     # Read data into list
-    datapoints = [list() for i in xrange(9)]
+    datapoints = [list() for i in range(9)]
     with open('analytics-full-13.csv', 'r') as datafile:
         reader = csv.DictReader(datafile)
         for row in reader:
@@ -209,7 +209,7 @@ The easiest and cleanest way to do this, is to create a subclass of the
     class Cogwheel(BaseShape):
         def _build_ast(self):
             cogs = []
-            for i in xrange(18):
+            for i in range(18):
                 cog = ast.Rectangle(2, 2)
                 translated = ast.Translate(9.5, -1, 0, cog)
                 rotated = ast.Rotate(i * 30, (0, 0, 1), translated)
