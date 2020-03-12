@@ -18,7 +18,7 @@ Tangible
     :alt: Wheel Availability
 
 *Tangible* is a Python library to convert data into tangible 3D models. It
-generates code for different backends like *OpenSCAD* or *ImplicitSCAD*. It is
+generates code for different backends like *OpenSCAD* or *ImplicitCAD*. It is
 inspired by projects like *OpenSCAD* and *d3.js*.
 
 .. image:: https://raw.github.com/dbrgn/tangible/master/example1.jpg
@@ -38,7 +38,7 @@ The workflow to get a real object from data is as follows::
     => STL file => Slicer => G code => 3D printer => Tangible object
 
 Of these, *Tangible* does the first three steps. The fourth step is handled by
-a programmatic CAD tool like *OpenSCAD* or *ImplicitSCAD* and the last four
+a programmatic CAD tool like *OpenSCAD* or *ImplicitCAD* and the last four
 steps are handled by the specific 3D printer software.
 
 Currently supported Python version is 2.7 and 3.4+.
